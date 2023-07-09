@@ -1,4 +1,5 @@
-﻿using GameEngine.Rendering;
+﻿using GameEngine.ECS;
+using GameEngine.Rendering;
 using GLFW;
 using static GameEngine.OpenGL.GL;
 
@@ -38,6 +39,8 @@ public sealed class Application
     {
         _window.Show();
 
+        _renderer.OnLoad();
+
         while (!_window.ShouldClose())
         {
             Update();
@@ -52,7 +55,18 @@ public sealed class Application
 
     private void Update()
     {
-        
+        foreach(GameObject obj in _scene.gameObjects)
+        {
+            // Remove objects that are destroyed
+            if (obj._destroyed)
+            {
+                _scene.RemoveObject(obj);
+            }
+            // Only update enabled gameObjects
+            if (!obj.enabled) { continue; }
+
+            obj.Update();
+        }
     }
 
     private void Render()

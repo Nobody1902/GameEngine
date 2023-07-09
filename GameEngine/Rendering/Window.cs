@@ -7,14 +7,15 @@ namespace GameEngine.Rendering;
 
 public sealed class Window : IDisposable
 {
-    private string _title;
-    private Vector2 _size;
+    public string _title { get; init; }
+    public Vector2 _size { get; init; }
 
     public GLFW.Window _window;
 
+    public static Window window;
+
     public Window(string title, Vector2 size)
     {
-
         _title = title;
         _size = size;
 
@@ -22,6 +23,7 @@ public sealed class Window : IDisposable
         {
             throw new System.Exception("Couldn't create GLFW window.");
         }
+        window = this;
     }
 
     public void Dispose()

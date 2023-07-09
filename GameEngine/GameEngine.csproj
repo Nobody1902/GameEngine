@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ECS\" />
+    <Using Include="System.Numerics" />
   </ItemGroup>
 
 </Project>
