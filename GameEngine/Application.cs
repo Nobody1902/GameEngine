@@ -16,6 +16,8 @@ public sealed class Application
     private Renderer _renderer { get; init; }
     private Scene _scene { get; set; }
 
+    private Shader _shader { get; set; }
+
     public Application(string title, Vector2 size)
     {
         _title = title;
@@ -26,7 +28,36 @@ public sealed class Application
 
         _scene = Scene.Empty;
 
-        _renderer = new(_window, _scene);
+
+        string vertex = """
+            #version 330 core
+
+            layout (location = 0) in vec3 aPos;
+            layout (location = 1) in vec3 aNormal;
+
+            void main()
+            {
+                gl_Position = vec4(aPos, 0.0);
+            }
+            """;
+        string fragment = """
+            #version 330 core
+
+            out vec4 FragColor;
+
+            void main()
+            {
+                FragColor = vec4(255.0f, 0.0f, 0.0f, 1.0f);
+            }
+            """;
+
+        _shader = new Shader(vertex, fragment, true);
+        _renderer = new(_window, _scene, _shader);
+    }
+    public void SetShader(Shader shader)
+    {
+        _shader = shader;
+        _renderer.SetShader(shader);
     }
 
     public void SetScene(Scene scene)
@@ -49,7 +80,7 @@ public sealed class Application
 
             Render();
         }
-
+        _window.CloseWindow();
         // No need to call CloseWindow as it should happen automatically
     }
 
@@ -61,6 +92,7 @@ public sealed class Application
             if (obj._destroyed)
             {
                 _scene.RemoveObject(obj);
+                _renderer.SetScene(_scene);
             }
             // Only update enabled gameObjects
             if (!obj.enabled) { continue; }

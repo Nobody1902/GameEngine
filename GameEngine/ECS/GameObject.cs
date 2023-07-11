@@ -71,7 +71,9 @@ public class GameObject
 
     public T AddComponent<T>() where T : Component
     {
-        return (T)Activator.CreateInstance(typeof(T), new object[] { this }) ?? throw new Exception("Error adding component.");
+        T component = (T)Activator.CreateInstance(typeof(T), new object[] { this }) ?? throw new Exception("Error adding component.");
+        _components.Add(component);
+        return component;
     }
     public T GetComponent<T>() where T : Component
     {

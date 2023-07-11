@@ -6,17 +6,31 @@ public class Shader
 {
     private string _vertex;
     private string _fragment;
+    private bool _imported;
+
+    public string _vertexCode { get { return _vertex; } }
+    public string _fragmentCode { get { return _fragment; } }
 
     public uint ProgramID { get; private set; }
 
-    public Shader(string vertex, string fragment)
+    public Shader(string vertex, string fragment, bool imported = false)
     {
         _vertex = vertex;
         _fragment = fragment;
+        _imported = imported;
+    }
+    public void CheckImported()
+    {
+        if (_imported)
+        {
+            Console.WriteLine("Imported Shader!");
+        }
     }
     public void Load()
     {
         uint vs, fs;
+
+        #region Create vertex shader
         vs = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vs, _vertex);
         glCompileShader(vs);
@@ -27,7 +41,9 @@ public class Shader
         {
             throw new Exception(glGetShaderInfoLog(vs));
         }
+        #endregion
 
+        #region Create fragment shader
         fs = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fs, _fragment);
         glCompileShader(fs);
@@ -38,25 +54,26 @@ public class Shader
         {
             throw new Exception(glGetShaderInfoLog(fs));
         }
+        #endregion
 
+        // Create program
         ProgramID = glCreateProgram();
-        glAttachShader(vs, ProgramID);
-        glAttachShader(fs, ProgramID);
+        glAttachShader(ProgramID, vs);
+        glAttachShader(ProgramID, fs);
 
+        // Link program
         glLinkProgram(ProgramID);
 
-        // Delete shaders
-        glDetachShader(ProgramID, vs);
-        glDetachShader(ProgramID, fs);
-
-        glDeleteShader(vs);
-        glDeleteShader(fs);
+        if(glGetProgramiv(ProgramID, GL_LINK_STATUS, 1)[0] == 0)
+        {
+            throw new Exception(glGetProgramInfoLog(ProgramID));
+        }
     }
     public void Use()
     {
         glUseProgram(ProgramID);
     }
-    private float[] GetMatrix4x4Values(Matrix4x4 m)
+    private static float[] GetMatrix4x4Values(Matrix4x4 m)
     {
         return new float[]
         {
@@ -70,6 +87,11 @@ public class Shader
     {
         int location = glGetUniformLocation(ProgramID, uniformName);
         glUniformMatrix4fv(location, 1, false, GetMatrix4x4Values(matrix));
+    }
+    public void SetVec4(string uniformName, Vector4 v)
+    {
+        int location = glGetUniformLocation(ProgramID, uniformName);
+        glUniform4f(location, v.X, v.Y, v.Z, v.W);
     }
     public void SetVec3(string uniformName, Vector3 v)
     {
@@ -85,5 +107,13 @@ public class Shader
     {
         int location = glGetUniformLocation(ProgramID, uniformName);
         glUniform1f(location, v);
+    }
+
+    public static Shader LoadShader(string vertexPath, string fragmentPath)
+    {
+        string vertexCode = File.ReadAllText(vertexPath);
+        string fragmentCode = File.ReadAllText(fragmentPath);
+
+        return new(vertexCode, fragmentCode, true);
     }
 }

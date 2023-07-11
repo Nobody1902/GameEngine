@@ -2,7 +2,9 @@
 using GameEngine.ECS.Components;
 using GLFW;
 using System.Drawing;
+using System.Net.Security;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static GameEngine.OpenGL.GL;
 
 namespace GameEngine.Rendering;
@@ -14,10 +16,11 @@ public sealed class Renderer
 
     private Shader _shaderProgram;
 
-    public Renderer(Window window, Scene scene)
+    public Renderer(Window window, Scene scene, Shader defaultShader)
     {
         _window = window;
         _scene = scene;
+        _shaderProgram = defaultShader;
     }
 
     public void SetScene(Scene scene)
@@ -28,84 +31,112 @@ public sealed class Renderer
     {
         _window = window;
     }
-    public void LoadShaders()
+    public unsafe void SetShader(Shader shader)
     {
-        string vertex = """
-                        #version 330 core
-            layout (location = 0) in vec3 aPos;
-
-            uniform mat4 u_proj;
-
-            void main()
-            {
-                gl_Position = u_proj * vec4(aPos.x, aPos.y, aPos.z, 0.0f);
-            }
-            """;
-        string fragment = """
-                        #version 330 core
-            out vec4 FragColor;
-
-            void main()
-            {
-                FragColor = vec4(255.0f, 255.0f, 255.0f, 1.0f);
-            } 
-            """;
-        _shaderProgram = new Shader(vertex, fragment);
+        _shaderProgram = shader;
         _shaderProgram.Load();
     }
-    VAO vao;
-    VBO vbo;
-    EBO ebo;
-    public void OnLoad()
+
+    float[] vertecies =
+{
+            0.0f, 0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+        };
+    uint[] indicies =
     {
-        LoadShaders();
-        Matrix4x4 projection = Camera.camera.GetProjectionMatrix();
-        _shaderProgram.SetMatrix4x4("u_proj", projection);
+            0, 1, 2,
+        };
+    uint vao;
+    uint vbo;
+    uint ibo;
+    public unsafe void OnLoad()
+    {
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+        glCullFace(GL_BACK);
 
-        vao = new();
-        vbo = new(new float[]
+
+        // Create shaders
+        _shaderProgram.Load();
+
+        // Create vao and vbo
+        vao = glGenVertexArray();
+
+        glBindVertexArray(vao);
+
+
+        vbo = glGenBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        fixed (float* v = &vertecies[0])
         {
-            .5f, .5f, 1f,
-            .5f, -.5f, 1f,
-            -.5f, -.5f, 1f
-        });
-        ebo = new(new float[]{
-            0,1,2,3,4,5,6,7,8
-        });
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertecies.Length, v, GL_STATIC_DRAW);
+        }
 
-        vao.Bind();
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
 
-        vao.LinkVBO(vbo, 0);
-        vao.Unbind();
-        vbo.Unbind();
-        ebo.Unbind();
+        ibo = glGenBuffer();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        fixed(uint* i = &indicies[0])
+        {
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.Length, i, GL_STATIC_DRAW);
+        }
+
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
     }
 
     public unsafe void Render()
     {
-        glClearColor(0, 0, 0, 1);
+        glClearColor(.4f, .4f, .5f, .2f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /*foreach (GameObject obj in _scene.gameObjects)
-        {
-            if (!obj.enabled || !obj.HasComponent<MeshRenderer>()) { continue; }
+        Matrix4x4 proj = Camera.camera.GetProjectionMatrix();
 
-            DrawMeshRend(obj.GetComponent<MeshRenderer>());
-        }*/
         _shaderProgram.Use();
-        vao.Bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        _shaderProgram.SetMatrix4x4("u_proj", proj);
 
+        /*glBindVertexArray(vao);
+
+        fixed (uint* i = &indicies[0])
+        {
+            glDrawElements(GL_TRIANGLES, indicies.Length, GL_UNSIGNED_INT, i);
+        }
+
+        glBindVertexArray(0);*/
+
+        foreach(var gameObject in _scene.gameObjects)
+        {
+            // Skip object that are diabled and those with no MeshRenderer
+            if (!gameObject.enabled || !gameObject.HasComponent<MeshRenderer>()) { continue; }
+
+            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+            DrawMesh(meshRenderer);
+        }
 
         Glfw.SwapBuffers(_window._window);
     }
 
-    public unsafe void DrawMeshRend(MeshRenderer meshRenderer)
-    {   
+    public unsafe void DrawMesh(MeshRenderer meshRend)
+    {
+        Vector4 color = new(meshRend.Color.R, meshRend.Color.G, meshRend.Color.B, meshRend.Color.A);
+        _shaderProgram.SetVec4("u_color", color);
 
-        _shaderProgram.Use();
-        
-        
+        Mesh mesh = meshRend.Mesh;
+
+        glBindVertexArray(mesh.vao);
+
+        fixed (uint* i = &mesh._indices[0])
+        {
+            glDrawElements(GL_TRIANGLES, mesh._indices.Length, GL_UNSIGNED_INT, i);
+        }
+
+        glBindVertexArray(0);
     }
 }

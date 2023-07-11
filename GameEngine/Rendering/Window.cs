@@ -45,9 +45,6 @@ public sealed class Window : IDisposable
         Glfw.WindowHint(Hint.Focused, true);
         Glfw.WindowHint(Hint.Resizable, false);
 
-        // Hide the window at startup
-        Glfw.WindowHint(Hint.Visible, true);
-
         _window = Glfw.CreateWindow((int)_size.X, (int)_size.Y, _title, GLFW.Monitor.None, GLFW.Window.None);
 
         _window.Opacity = 0;
@@ -73,12 +70,12 @@ public sealed class Window : IDisposable
 
         glViewport(0, 0, (int)_size.X, (int)_size.X); // Setup the opengl viewport
 
-        Glfw.SwapInterval(1); // Turn off VSync
+        Glfw.SwapInterval(0); // Turn on VSync
 
         return 0;
     }
 
-    private void CloseWindow()
+    public void CloseWindow()
     {
         Glfw.Terminate();
     }
@@ -95,7 +92,6 @@ public sealed class Window : IDisposable
 
     public void Show()
     {
-        Glfw.WindowHint(Hint.Visible, true);
         _window.Opacity = 1;
     }
 
