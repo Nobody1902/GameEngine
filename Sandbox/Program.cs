@@ -13,9 +13,9 @@ app.SetShader(shaders);
 // Create a camera
 var cam = new GameObject("Camera", true);
 cam.AddComponent<Camera>();
-cam.GetComponent<Camera>().FOV = 45f;
-cam.transform.position = new(0, 0, -.1f);
-cam.transform.rotation = new(new(0), 1);
+cam.GetComponent<Camera>().FOV = 60;
+cam.transform.position = new(0f, 2f, -3f);
+cam.transform.rotation = new(new(0, 90f/360f, 0), 1);
 
 scene.AddObject(cam);
 
@@ -47,9 +47,11 @@ uint[] indic =
 };
 
 GameObject cube = new("Cube");
+cube.transform.position = new(0f, 0, 0);
 MeshRenderer rend = cube.AddComponent<MeshRenderer>();
 rend.SetMesh(new(verts, indic));
-rend.SetColor(Color.Red);
+rend.SetColor(Color.LightGray);
+
 
 scene.AddObject(cube);
 

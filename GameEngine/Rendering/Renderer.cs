@@ -92,10 +92,10 @@ public sealed class Renderer
 
     public unsafe void Render()
     {
-        glClearColor(.4f, .4f, .5f, .2f);
+        glClearColor(0, 0, 0, 1f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        Matrix4x4 proj = Camera.camera.GetProjectionMatrix();
+        Matrix4x4 proj = Camera.camera.GetMatrix();
 
         _shaderProgram.Use();
 
@@ -110,7 +110,7 @@ public sealed class Renderer
 
         glBindVertexArray(0);*/
 
-        foreach(var gameObject in _scene.gameObjects)
+        foreach (var gameObject in _scene.gameObjects)
         {
             // Skip object that are diabled and those with no MeshRenderer
             if (!gameObject.enabled || !gameObject.HasComponent<MeshRenderer>()) { continue; }
@@ -125,7 +125,11 @@ public sealed class Renderer
 
     public unsafe void DrawMesh(MeshRenderer meshRend)
     {
-        Vector4 color = new(meshRend.Color.R, meshRend.Color.G, meshRend.Color.B, meshRend.Color.A);
+        Vector4 color = new(((float)meshRend.Color.R)/255, ((float)meshRend.Color.G)/ 255, ((float)meshRend.Color.B) / 255, meshRend.Color.A);
+        Matrix4x4 model = meshRend.gameObject.transform.GetModelMatrix();
+
+        _shaderProgram.SetMatrix4x4("u_model", model);
+
         _shaderProgram.SetVec4("u_color", color);
 
         Mesh mesh = meshRend.Mesh;

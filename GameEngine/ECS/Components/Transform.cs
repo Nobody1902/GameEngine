@@ -49,16 +49,11 @@ public sealed class Transform : Component
         var z = float.Round(v.Z, 2);
         return new(x, y, z);
     }
-    public Matrix4x4 GetTransformation()
+    public Matrix4x4 GetModelMatrix()
     {
         Matrix4x4 translation = Matrix4x4.CreateTranslation(position);
         Matrix4x4 scale = Matrix4x4.CreateScale(this.scale);
         Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(this.rotation);
-
-        if(Quaternion.Zero == Quaternion.CreateFromRotationMatrix(rotation))
-        {
-            rotation = Matrix4x4.Identity;
-        }
 
         return translation * rotation * scale;
     }
