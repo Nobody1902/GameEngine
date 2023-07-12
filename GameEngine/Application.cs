@@ -65,20 +65,29 @@ public sealed class Application
         _scene = scene;
         _renderer.SetScene(_scene);
     }
-
+    public float DeltaTime { get; private set; }
     public void Run()
     {
         _window.Show();
 
         _renderer.OnLoad();
 
+
+        // Reset Time
+        Glfw.Time = 0;
+        double lastTime = Glfw.Time;
+
         while (!_window.ShouldClose())
         {
+            Time._SetDeltaTime(DeltaTime);
+
             Update();
 
             _window.PollEvents();
 
             Render();
+
+            DeltaTime = (float)(Glfw.Time - lastTime) / 1000000.0f;
         }
         _window.CloseWindow();
         // No need to call CloseWindow as it should happen automatically

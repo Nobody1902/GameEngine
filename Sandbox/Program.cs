@@ -13,41 +13,48 @@ app.SetShader(shaders);
 // Create a camera
 var cam = new GameObject("Camera", true);
 cam.AddComponent<Camera>();
-cam.GetComponent<Camera>().FOV = 60;
-cam.transform.position = new(0f, 2f, -3f);
-cam.transform.rotation = new(new(0, 90f/360f, 0), 1);
+cam.GetComponent<Camera>().FOV = 45;
+cam.transform.position = new(0, 0f, -3f);
 
 scene.AddObject(cam);
 
 float[] verts =
 {
-    0.5f, 0.5f, 0.5f
-    -0.5f, 0.5f, -0.5f,
-    -0.5f, 0.5f, 0.5f,
-    0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    0.5f, 0.5f, -0.5f,
-    0.5f, -0.5f, 0.5f,
-    -0.5f, -0.5f, 0.5f,
+    //     -Positions             -Colors
+    /* 0 */ -0.5f, -0.5f,  0.5f,  .2f, .2f, .2f,
+    /* 1 */ 0.5f, -0.5f,  0.5f,   .3f, .3f, .3f,
+    /* 2 */ -0.5f,  0.5f,  0.5f,  .4f, .4f, .4f,
+    /* 3 */ 0.5f,  0.5f,  0.5f,   .2f, .2f, .2f,
+    /* 4 */ -0.5f, -0.5f, -0.5f,  .3f, .3f, .3f,
+    /* 5 */ 0.5f, -0.5f, -0.5f,   .4f, .4f, .4f,
+    /* 6 */ -0.5f,  0.5f, -0.5f,  .3f, .3f, .3f,
+    /* 7 */ 0.5f,  0.5f, -0.5f,   .2f, .2f, .2f,
 };
 uint[] indic =
 {
+    // Back face
     0, 1, 2,
-    1, 3, 4,
-    5, 6, 3,
-    7, 3, 6,
-    2, 4, 7,
-    0, 7, 6,
-    0, 5, 1,
-    1, 5, 3,
-    5, 0, 6,
-    7, 4, 3,
-    2, 1, 4,
-    0, 2, 7,
+    3, 1, 2,
+    // Right face
+    0, 2, 4,
+    2, 6, 4,
+    // Front face
+    6, 4, 5,
+    5, 6, 7,
+    // Left face
+    7, 5, 1,
+    7, 3, 1,
+    // Top face
+    2, 3, 6,
+    6, 7, 3,
+    // Bottom face
+    0, 1, 4,
+    4, 5, 1
 };
 
 GameObject cube = new("Cube");
-cube.transform.position = new(0f, 0, 0);
+cube.transform.position = new(0f, 0f, 0);
+cube.transform.rotation = new(0);
 MeshRenderer rend = cube.AddComponent<MeshRenderer>();
 rend.SetMesh(new(verts, indic));
 rend.SetColor(Color.LightGray);

@@ -29,23 +29,23 @@ public sealed class Camera : Component
 
     public Matrix4x4 GetProjectionMatrix()
     {
-        float FOV_radians = ((float)Math.PI / 180) * FOV;
+        float FOV_radians = ((float)EngineMath.PI / 180) * FOV;
 
         Matrix4x4 proj = Matrix4x4.CreatePerspectiveFieldOfView(FOV_radians, Window.window._size.X / Window.window._size.Y, nearClip, farClip);
 
-        Matrix4x4 scale = Matrix4x4.CreateScale(10);
+        Matrix4x4 scale = Matrix4x4.CreateScale(1);
+
+        scale = Matrix4x4.Identity;
 
         return scale * proj;
     }
     public Matrix4x4 GetViewMatrix()
     {
-        Vector3 position = -gameObject.transform.position;
-        Vector3 forward = -gameObject.transform.forward;
-        Vector3 up = gameObject.transform.up;
+        Matrix4x4 view = gameObject.transform.GetModelMatrix();
 
-        Matrix4x4 view = Matrix4x4.CreateLookAt(position, position + forward, position + up);
+        Matrix4x4 view2 = Matrix4x4.CreateLookAt(gameObject.transform.position, gameObject.transform.forward, gameObject.transform.up);
 
-        return view;
+        return view2;
     }
     public Matrix4x4 GetMatrix()
     {

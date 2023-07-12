@@ -36,63 +36,19 @@ public sealed class Renderer
         _shaderProgram = shader;
         _shaderProgram.Load();
     }
-
-    float[] vertecies =
-{
-            0.0f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-        };
-    uint[] indicies =
-    {
-            0, 1, 2,
-        };
-    uint vao;
-    uint vbo;
-    uint ibo;
     public unsafe void OnLoad()
     {
-        glEnable(GL_CULL_FACE);
+        /*glEnable(GL_CULL_FACE);
         glFrontFace(GL_CW);
-        glCullFace(GL_BACK);
-
+        glCullFace(GL_BACK);*/
 
         // Create shaders
         _shaderProgram.Load();
-
-        // Create vao and vbo
-        vao = glGenVertexArray();
-
-        glBindVertexArray(vao);
-
-
-        vbo = glGenBuffer();
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        fixed (float* v = &vertecies[0])
-        {
-            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertecies.Length, v, GL_STATIC_DRAW);
-        }
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-
-        ibo = glGenBuffer();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-        fixed(uint* i = &indicies[0])
-        {
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.Length, i, GL_STATIC_DRAW);
-        }
-
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-
     }
 
     public unsafe void Render()
     {
-        glClearColor(0, 0, 0, 1f);
+        glClearColor(.8f, .8f, .8f, 1f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         Matrix4x4 proj = Camera.camera.GetMatrix();
@@ -101,14 +57,6 @@ public sealed class Renderer
 
         _shaderProgram.SetMatrix4x4("u_proj", proj);
 
-        /*glBindVertexArray(vao);
-
-        fixed (uint* i = &indicies[0])
-        {
-            glDrawElements(GL_TRIANGLES, indicies.Length, GL_UNSIGNED_INT, i);
-        }
-
-        glBindVertexArray(0);*/
 
         foreach (var gameObject in _scene.gameObjects)
         {

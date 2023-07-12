@@ -1,9 +1,11 @@
-﻿namespace GameEngine.ECS;
+﻿using GameEngine.ECS.Components;
+
+namespace GameEngine.ECS;
 
 public sealed class Transform : Component
 {
     public Vector3 position {  get; set; }
-    public Quaternion rotation { get; set; }
+    public Vector3 rotation { get; set; }
     public Vector3 scale { get; set; }
 
     public Vector3 forward;
@@ -13,7 +15,7 @@ public sealed class Transform : Component
     public Transform(GameObject gameObject) : base(gameObject)
     {
         position = Vector3.Zero;
-        rotation = Quaternion.Identity;
+        rotation = Vector3.Zero;
         scale = Vector3.One;
 
         up = new(0, 1, 0);
@@ -22,10 +24,9 @@ public sealed class Transform : Component
     }
     public override void Update()
     {
-        Quaternion q = rotation;
-        var yaw = MathF.Atan2(2.0f * (q.Y * q.Z + q.W * q.X), q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z);
-        var pitch = MathF.Asin(-2.0f * (q.X * q.Z - q.W * q.Y));
-        var roll = MathF.Atan2(2.0f * (q.X * q.Y + q.W * q.Z), q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z);
+        var yaw = rotation.X;
+        var pitch = rotation.Y;
+        var roll = rotation.Z;
 
         forward.X = MathF.Cos(pitch) * MathF.Sin(yaw);
         forward.Y = -MathF.Sin(pitch);
@@ -40,6 +41,17 @@ public sealed class Transform : Component
         forward = Round(forward);
         right = Round(right);
         up = Round(up);
+
+        // Rotate the cube
+
+        if(this != Camera.camera.gameObject.transform)
+        {
+            rotation += new Vector3(0, Time.DeltaTime*500, 0);
+            if(rotation.Y > 360f)
+            {
+                rotation -= new Vector3(0, rotation.Y, 0);
+            }
+        }
     }
 
     static Vector3 Round(Vector3 v)
@@ -52,8 +64,19 @@ public sealed class Transform : Component
     public Matrix4x4 GetModelMatrix()
     {
         Matrix4x4 translation = Matrix4x4.CreateTranslation(position);
+
+        // Calculate the rotation matrix (with radians)
+        float x = EngineMath.Radians(this.rotation.X);
+        float y = EngineMath.Radians(this.rotation.Y);
+        float z = EngineMath.Radians(this.rotation.Z);
+
+        Matrix4x4 rotationX = Matrix4x4.CreateRotationX(x);
+        Matrix4x4 rotationY = Matrix4x4.CreateRotationY(y);
+        Matrix4x4 rotationZ = Matrix4x4.CreateRotationZ(z);
+
+        Matrix4x4 rotation = rotationX * rotationY * rotationZ;
+
         Matrix4x4 scale = Matrix4x4.CreateScale(this.scale);
-        Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(this.rotation);
 
         return translation * rotation * scale;
     }

@@ -30,8 +30,10 @@ public struct Mesh
             glBufferData(GL_ARRAY_BUFFER, sizeof(float) * _verticies.Length, v, GL_STATIC_DRAW);
         }
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * sizeof(float), 3*sizeof(float));
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
 
         ibo = glGenBuffer();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
