@@ -6,7 +6,7 @@ using GameEngine.Rendering;
 
 var scene = new Scene();
 var app = new Application("My Game", new Vector2(800, 800));
-Shader shaders = Shader.LoadShader(@"C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\shaders\vertex.vert", @"C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\shaders\fragment.frag");
+Shader shaders = Shader.LoadShader("shaders/vertex.vert", "shaders/fragment.frag");
 app.SetShader(shaders);
 
 // Create a camera
