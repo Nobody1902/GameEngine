@@ -1,6 +1,6 @@
 ﻿namespace GameEngine;
 
-internal static class ExtensionMethods
+public static class ExtensionMethods
 {
     public static Vector3 Normalized(this Vector3 v)
     {
@@ -11,5 +11,14 @@ internal static class ExtensionMethods
     {
         float w = MathF.Sqrt(v.X * v.X + v.Y * v.Y);
         return new Vector2(v.X / w, v.Y / w);
+    }
+
+    public static bool IsEmpty(this string s)
+    {
+        return string.IsNullOrEmpty(s)||string.IsNullOrWhiteSpace(s);
+    }
+    public static string Clean(this string s)
+    {
+        return s.Replace("\r", "").Replace(" ", "").Replace("\t", "");
     }
 }

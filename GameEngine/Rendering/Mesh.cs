@@ -1,6 +1,5 @@
 ﻿using static GameEngine.OpenGL.GL;
-using GameEngine.ECS.Components;
-using System.Runtime.InteropServices;
+
 
 namespace GameEngine.Rendering;
 
@@ -48,4 +47,6 @@ public struct Mesh
         glBindVertexArray(0);
 
     }
+
+
 }

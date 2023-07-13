@@ -18,3 +18,6 @@ C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.genr
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\ref\Sandbox.dll
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.frag
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.vert
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\fragment.frag
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\vertex.vert
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Cube.model

@@ -51,7 +51,7 @@ public sealed class Renderer
 
     public unsafe void Render()
     {
-        glClearColor(.8f, .8f, .8f, 1f);
+        glClearColor(0f, 0f, 0f, 1f);
 
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

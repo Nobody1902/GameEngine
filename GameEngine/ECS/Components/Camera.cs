@@ -27,25 +27,6 @@ public sealed class Camera : Component
         camera = this;
     }
     public const float speed = 1_000_000f;
-    public override void Update()
-    {
-        if (Input.KeyPressed(GLFW.Keys.W))
-        {
-            gameObject.transform.position += new Vector3(0, 0, Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
-        }
-        if(Input.KeyPressed(GLFW.Keys.S))
-        {
-            gameObject.transform.position += new Vector3(0, 0, -Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
-        }
-        if (Input.KeyPressed(GLFW.Keys.D))
-        {
-            gameObject.transform.position += new Vector3(-Time.DeltaTime * speed, 0, 0) * gameObject.transform.right.Normalized();
-        }
-        if (Input.KeyPressed(GLFW.Keys.A))
-        {
-            gameObject.transform.position += new Vector3(Time.DeltaTime * speed, 0, 0) * gameObject.transform.right.Normalized();
-        }
-    }
 
     public Matrix4x4 GetProjectionMatrix()
     {
@@ -57,7 +38,7 @@ public sealed class Camera : Component
     }
     public Matrix4x4 GetViewMatrix()
     {
-        Matrix4x4 view = Matrix4x4.CreateLookAt(gameObject.transform.position, gameObject.transform.position+gameObject.transform.forward, gameObject.transform.up);
+        Matrix4x4 view = Matrix4x4.CreateLookAt(transform.position, transform.position+transform.forward, transform.up);
 
         return view;
     }

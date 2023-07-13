@@ -4,6 +4,7 @@ namespace GameEngine.ECS;
 public class Component
 {
     public GameObject gameObject { get; init; }
+    public Transform transform { get { return gameObject.transform; } }
 
     public Component(GameObject gameObject)
     {

@@ -6,61 +6,53 @@ using GameEngine.Rendering;
 
 var scene = new Scene();
 var app = new Application("My Game", new Vector2(800, 800));
+
+// Load the shaders (make sure to set "Copy to Output Directory" to "Copy always")
 Shader shaders = Shader.LoadShader("shaders/vertex.vert", "shaders/fragment.frag");
 app.SetShader(shaders);
 
+#region Camera
 // Create a camera
 var cam = new GameObject("Camera", true);
 cam.AddComponent<Camera>();
-cam.GetComponent<Camera>().FOV = 90f;
+cam.GetComponent<Camera>().FOV = 60f;
+// Add the custom CameraController class
+cam.AddComponent<CameraController>();
+// Set the camera's position
 cam.transform.position = new(0, 0f, -3f);
+#endregion
 
-scene.AddObject(cam);
-
-float[] verts =
-{
-    //     -Positions             -Colors
-    /* 0 */ -0.5f, -0.5f,  0.5f,  .2f, .2f, .2f,
-    /* 1 */ 0.5f, -0.5f,  0.5f,   .3f, .3f, .3f,
-    /* 2 */ -0.5f,  0.5f,  0.5f,  .4f, .4f, .4f,
-    /* 3 */ 0.5f,  0.5f,  0.5f,   .2f, .2f, .2f,
-    /* 4 */ -0.5f, -0.5f, -0.5f,  .3f, .3f, .3f,
-    /* 5 */ 0.5f, -0.5f, -0.5f,   .4f, .4f, .4f,
-    /* 6 */ -0.5f,  0.5f, -0.5f,  .3f, .3f, .3f,
-    /* 7 */ 0.5f,  0.5f, -0.5f,   .2f, .2f, .2f,
-};
-uint[] indic =
-{
-    // Back face
-    0, 1, 2,
-    3, 1, 2,
-    // Right face
-    0, 2, 4,
-    2, 6, 4,
-    // Front face
-    6, 4, 5,
-    5, 6, 7,
-    // Left face
-    7, 5, 1,
-    7, 3, 1,
-    // Top face
-    2, 3, 6,
-    6, 7, 3,
-    // Bottom face
-    0, 1, 4,
-    4, 5, 1
-};
+#region Cube
+// Load the cube mesh
+Mesh mesh = MeshLoader.Load("models/Cube.model");
 
 GameObject cube = new("Cube");
-cube.transform.position = new(0f, 0f, 0);
-cube.transform.rotation = new(0);
+// Add the custom Rotator class
+cube.AddComponent<Rotator>().Speed = 50_000_000f;
+// Add and store the MeshRenderer
 MeshRenderer rend = cube.AddComponent<MeshRenderer>();
-rend.SetMesh(new(verts, indic));
-
+// Set the mesh to render
+rend.SetMesh(mesh);
+// Set the color
 rend.SetColor(new(40, 40, 40));
+#endregion
 
+#region Light
 
+var light = new GameObject("Light");
+light.transform.position = new(1.5f, 1.5f, -2f);
+light.transform.scale = new(.4f);
+MeshRenderer r = light.AddComponent<MeshRenderer>();
+r.SetMesh(mesh);
+r.SetColor(Color.White);
+
+#endregion
+
+// Add the objects to scene
+scene.AddObject(cam);
+scene.AddObject(light);
 scene.AddObject(cube);
 
+// Start the app
 app.SetScene(scene);
 app.Run();

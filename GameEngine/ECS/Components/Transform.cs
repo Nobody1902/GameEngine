@@ -41,17 +41,6 @@ public sealed class Transform : Component
         forward = Round(forward);
         right = Round(right);
         up = Round(up);
-
-        // Rotate the cube
-
-        /*if(this != Camera.camera.gameObject.transform)
-        {
-            rotation += new Vector3(0f, Time.DeltaTime*10_000_000f, 0f);
-            if(rotation.Y > 360f)
-            {
-                rotation -= new Vector3(rotation.X, rotation.Y, 0);
-            }
-        }*/
     }
 
     static Vector3 Round(Vector3 v)
@@ -76,7 +65,7 @@ public sealed class Transform : Component
 
         Matrix4x4 rotation = rotationX * rotationY * rotationZ;
 
-        Matrix4x4 scale = Matrix4x4.CreateScale(this.scale);
+        Matrix4x4 scale = Matrix4x4.CreateScale(this.scale, transform.position);
 
         return translation * rotation * scale;
     }
