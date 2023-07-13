@@ -44,14 +44,14 @@ public sealed class Transform : Component
 
         // Rotate the cube
 
-        if(this != Camera.camera.gameObject.transform)
+        /*if(this != Camera.camera.gameObject.transform)
         {
-            rotation += new Vector3(0, Time.DeltaTime*500, 0);
+            rotation += new Vector3(0f, Time.DeltaTime*10_000_000f, 0f);
             if(rotation.Y > 360f)
             {
-                rotation -= new Vector3(0, rotation.Y, 0);
+                rotation -= new Vector3(rotation.X, rotation.Y, 0);
             }
-        }
+        }*/
     }
 
     static Vector3 Round(Vector3 v)

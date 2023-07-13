@@ -26,6 +26,26 @@ public sealed class Camera : Component
         // Set the static camera refrence
         camera = this;
     }
+    public const float speed = 1_000_000f;
+    public override void Update()
+    {
+        if (Input.KeyPressed(GLFW.Keys.W))
+        {
+            gameObject.transform.position += new Vector3(0, 0, Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
+        }
+        if(Input.KeyPressed(GLFW.Keys.S))
+        {
+            gameObject.transform.position += new Vector3(0, 0, -Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
+        }
+        if (Input.KeyPressed(GLFW.Keys.D))
+        {
+            gameObject.transform.position += new Vector3(-Time.DeltaTime * speed, 0, 0) * gameObject.transform.right.Normalized();
+        }
+        if (Input.KeyPressed(GLFW.Keys.A))
+        {
+            gameObject.transform.position += new Vector3(Time.DeltaTime * speed, 0, 0) * gameObject.transform.right.Normalized();
+        }
+    }
 
     public Matrix4x4 GetProjectionMatrix()
     {
@@ -33,22 +53,16 @@ public sealed class Camera : Component
 
         Matrix4x4 proj = Matrix4x4.CreatePerspectiveFieldOfView(FOV_radians, Window.window._size.X / Window.window._size.Y, nearClip, farClip);
 
-        Matrix4x4 scale = Matrix4x4.CreateScale(1);
-
-        scale = Matrix4x4.Identity;
-
-        return scale * proj;
+        return proj;
     }
     public Matrix4x4 GetViewMatrix()
     {
-        Matrix4x4 view = gameObject.transform.GetModelMatrix();
+        Matrix4x4 view = Matrix4x4.CreateLookAt(gameObject.transform.position, gameObject.transform.position+gameObject.transform.forward, gameObject.transform.up);
 
-        Matrix4x4 view2 = Matrix4x4.CreateLookAt(gameObject.transform.position, gameObject.transform.forward, gameObject.transform.up);
-
-        return view2;
+        return view;
     }
     public Matrix4x4 GetMatrix()
     {
-        return GetViewMatrix() * GetProjectionMatrix();
+        return GetViewMatrix()*GetProjectionMatrix();
     }
 }

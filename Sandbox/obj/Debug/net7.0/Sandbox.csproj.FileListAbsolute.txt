@@ -16,3 +16,5 @@ C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\refint\Sandb
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.pdb
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.genruntimeconfig.cache
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\ref\Sandbox.dll
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.frag
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.vert

@@ -28,30 +28,7 @@ public sealed class Application
 
         _scene = Scene.Empty;
 
-
-        string vertex = """
-            #version 330 core
-
-            layout (location = 0) in vec3 aPos;
-            layout (location = 1) in vec3 aNormal;
-
-            void main()
-            {
-                gl_Position = vec4(aPos, 0.0);
-            }
-            """;
-        string fragment = """
-            #version 330 core
-
-            out vec4 FragColor;
-
-            void main()
-            {
-                FragColor = vec4(255.0f, 0.0f, 0.0f, 1.0f);
-            }
-            """;
-
-        _shader = new Shader(vertex, fragment, true);
+        _shader = Shader.LoadShader("shaders/default.vert", "shaders/default.frag");
         _renderer = new(_window, _scene, _shader);
     }
     public void SetShader(Shader shader)
@@ -70,7 +47,14 @@ public sealed class Application
     {
         _window.Show();
 
+        // Set the key callback function
+        Glfw.SetKeyCallback(_window._window, Input._keyCallback);
+        Glfw.SetMouseButtonCallback(_window._window, Input._mouseButtonCallback);
+        Glfw.SetCursorPositionCallback(_window._window, Input._mouseCallback);
+
         _renderer.OnLoad();
+        Input.OnLoad();
+
 
 
         // Reset Time
@@ -88,6 +72,7 @@ public sealed class Application
             Render();
 
             DeltaTime = (float)(Glfw.Time - lastTime) / 1000000.0f;
+            lastTime = Glfw.Time;
         }
         _window.CloseWindow();
         // No need to call CloseWindow as it should happen automatically
@@ -108,6 +93,7 @@ public sealed class Application
 
             obj.Update();
         }
+        Input.Update();
     }
 
     private void Render()

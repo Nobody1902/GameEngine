@@ -1,6 +1,5 @@
 ﻿
 using GameEngine.Rendering;
-using System.Drawing;
 
 namespace GameEngine.ECS;
 

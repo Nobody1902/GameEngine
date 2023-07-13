@@ -42,6 +42,9 @@ public sealed class Renderer
         glFrontFace(GL_CW);
         glCullFace(GL_BACK);*/
 
+        // Enable the depth
+        glEnable(GL_DEPTH_TEST);
+
         // Create shaders
         _shaderProgram.Load();
     }
@@ -49,15 +52,18 @@ public sealed class Renderer
     public unsafe void Render()
     {
         glClearColor(.8f, .8f, .8f, 1f);
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        Matrix4x4 proj = Camera.camera.GetMatrix();
+        // Clear the color and depth buffers
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Use the shader program
         _shaderProgram.Use();
 
+        // Set the camera projection uniform
+        Matrix4x4 proj = Camera.camera.GetMatrix();
         _shaderProgram.SetMatrix4x4("u_proj", proj);
 
-
+        // Render scene GameObjects
         foreach (var gameObject in _scene.gameObjects)
         {
             // Skip object that are diabled and those with no MeshRenderer
@@ -73,14 +79,19 @@ public sealed class Renderer
 
     public unsafe void DrawMesh(MeshRenderer meshRend)
     {
+        // Get the color to a 0 to 1 range (instead of 0 to 255)
         Vector4 color = new(((float)meshRend.Color.R)/255, ((float)meshRend.Color.G)/ 255, ((float)meshRend.Color.B) / 255, meshRend.Color.A);
+        // Get the GameObjects model matrix
         Matrix4x4 model = meshRend.gameObject.transform.GetModelMatrix();
 
+        // Set the color and model matrix uniforms
+        _shaderProgram.SetVec4("u_color", color);
         _shaderProgram.SetMatrix4x4("u_model", model);
 
-        _shaderProgram.SetVec4("u_color", color);
-
+        // Get the mesh
         Mesh mesh = meshRend.Mesh;
+
+        #region Render Mesh
 
         glBindVertexArray(mesh.vao);
 
@@ -90,5 +101,7 @@ public sealed class Renderer
         }
 
         glBindVertexArray(0);
+
+        #endregion
     }
 }

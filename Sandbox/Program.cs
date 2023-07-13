@@ -3,7 +3,6 @@ using GameEngine.ECS;
 using GameEngine;
 using GameEngine.ECS.Components;
 using GameEngine.Rendering;
-using System.Drawing;
 
 var scene = new Scene();
 var app = new Application("My Game", new Vector2(800, 800));
@@ -13,7 +12,7 @@ app.SetShader(shaders);
 // Create a camera
 var cam = new GameObject("Camera", true);
 cam.AddComponent<Camera>();
-cam.GetComponent<Camera>().FOV = 45;
+cam.GetComponent<Camera>().FOV = 90f;
 cam.transform.position = new(0, 0f, -3f);
 
 scene.AddObject(cam);
@@ -57,7 +56,8 @@ cube.transform.position = new(0f, 0f, 0);
 cube.transform.rotation = new(0);
 MeshRenderer rend = cube.AddComponent<MeshRenderer>();
 rend.SetMesh(new(verts, indic));
-rend.SetColor(Color.LightGray);
+
+rend.SetColor(new(40, 40, 40));
 
 
 scene.AddObject(cube);
