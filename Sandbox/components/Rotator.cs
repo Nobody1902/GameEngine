@@ -12,10 +12,6 @@ public class Rotator : Component
     {
         // Rotate the cube
 
-        transform.rotation += new Vector3(0f, Time.DeltaTime * Speed, 0f);
-        if (transform.rotation.Y > 360f)
-        {
-            transform.rotation -= new Vector3(transform.rotation.X, transform.rotation.Y, 0);
-        }
+        transform.rotation += new Vector3(Time.DeltaTime * Speed, Time.DeltaTime * Speed, 0f);
     }
 }

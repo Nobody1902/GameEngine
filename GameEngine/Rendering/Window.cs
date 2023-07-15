@@ -88,6 +88,8 @@ public sealed class Window : IDisposable
     public void PollEvents()
     {
         Glfw.PollEvents();
+
+        Glfw.SetWindowTitle(_window, _title + " - " + Time.FPS + " FPS");
     }
 
     public void Show()

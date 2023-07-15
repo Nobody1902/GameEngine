@@ -60,9 +60,26 @@ public sealed class Application
         // Reset Time
         Glfw.Time = 0;
         double lastTime = Glfw.Time;
+        double prevTime = 0.0;
+        double currentTime = 0.0;
+        double timeDiffrance = 0.0;
+        uint counter = 0;
 
         while (!_window.ShouldClose())
         {
+            currentTime = Glfw.Time;
+
+            timeDiffrance = currentTime - prevTime;
+            counter++;
+            if(timeDiffrance >= 1f / 30f)
+            {
+                double FPS = (1f / timeDiffrance) * counter;
+                float fps = MathF.Round((float)FPS, 2);
+                Time._SetFPS(fps);
+
+                prevTime = currentTime;
+                counter = 0;
+            }
             Time._SetDeltaTime(DeltaTime);
 
             Update();

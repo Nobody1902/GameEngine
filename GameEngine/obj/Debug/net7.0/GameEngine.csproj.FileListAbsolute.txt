@@ -1,3 +1,5 @@
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\shaders\default.frag
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\shaders\default.vert
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\GameEngine.deps.json
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\GameEngine.dll
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\GameEngine.pdb
@@ -12,5 +14,3 @@ C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\obj\Debug\net7.0\GameEngin
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\obj\Debug\net7.0\refint\GameEngine.dll
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\obj\Debug\net7.0\GameEngine.pdb
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\obj\Debug\net7.0\ref\GameEngine.dll
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\shaders\default.frag
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\GameEngine\bin\Debug\net7.0\shaders\default.vert

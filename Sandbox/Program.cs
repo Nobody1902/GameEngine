@@ -5,7 +5,7 @@ using GameEngine.ECS.Components;
 using GameEngine.Rendering;
 
 var scene = new Scene();
-var app = new Application("My Game", new Vector2(800, 800));
+var app = new Application("Sandbox", new Vector2(800, 800));
 
 // Load the shaders (make sure to set "Copy to Output Directory" to "Copy always")
 Shader shaders = Shader.LoadShader("shaders/vertex.vert", "shaders/fragment.frag");
@@ -24,9 +24,10 @@ cam.transform.position = new(0, 0f, -3f);
 
 #region Cube
 // Load the cube mesh
-Mesh mesh = MeshLoader.Load("models/Cube.model");
-
+Mesh mesh = MeshLoader.Load("models/Sphere.model");
+Console.WriteLine(mesh._verticies.Length);
 GameObject cube = new("Cube");
+cube.transform.scale = Vector3.One;
 // Add the custom Rotator class
 cube.AddComponent<Rotator>().Speed = 50_000_000f;
 // Add and store the MeshRenderer
@@ -34,23 +35,28 @@ MeshRenderer rend = cube.AddComponent<MeshRenderer>();
 // Set the mesh to render
 rend.SetMesh(mesh);
 // Set the color
-rend.SetColor(new(40, 40, 40));
+rend.SetColor(Color.White);
 #endregion
 
 #region Light
 
+Mesh lightMesh = MeshLoader.Load("models/Cube.model");
+
 var light = new GameObject("Light");
-light.transform.position = new(1.5f, 1.5f, -2f);
+light.AddComponent<Light>().Color = Color.White;
+light.GetComponent<Light>().Intensity = .7f;
+light.transform.position = new(0, -2, 0f);
 light.transform.scale = new(.4f);
-MeshRenderer r = light.AddComponent<MeshRenderer>();
-r.SetMesh(mesh);
-r.SetColor(Color.White);
+
+light.AddComponent<MeshRenderer>().SetMesh(lightMesh);
 
 #endregion
 
 // Add the objects to scene
 scene.AddObject(cam);
+
 scene.AddObject(light);
+
 scene.AddObject(cube);
 
 // Start the app

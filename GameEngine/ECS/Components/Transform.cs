@@ -52,7 +52,8 @@ public sealed class Transform : Component
     }
     public Matrix4x4 GetModelMatrix()
     {
-        Matrix4x4 translation = Matrix4x4.CreateTranslation(position);
+        var pos = position * new Vector3(-1, 1 ,1);
+        Matrix4x4 translation = Matrix4x4.CreateTranslation(pos);
 
         // Calculate the rotation matrix (with radians)
         float x = EngineMath.Radians(this.rotation.X);
@@ -65,7 +66,7 @@ public sealed class Transform : Component
 
         Matrix4x4 rotation = rotationX * rotationY * rotationZ;
 
-        Matrix4x4 scale = Matrix4x4.CreateScale(this.scale, transform.position);
+        Matrix4x4 scale = Matrix4x4.CreateScale(this.scale, pos);
 
         return translation * rotation * scale;
     }

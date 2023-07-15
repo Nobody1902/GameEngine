@@ -38,9 +38,9 @@ public sealed class Renderer
     }
     public unsafe void OnLoad()
     {
-        /*glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
         glFrontFace(GL_CW);
-        glCullFace(GL_BACK);*/
+        glCullFace(GL_BACK);
 
         // Enable the depth
         glEnable(GL_DEPTH_TEST);
@@ -61,7 +61,28 @@ public sealed class Renderer
 
         // Set the camera projection uniform
         Matrix4x4 proj = Camera.camera.GetMatrix();
+        Vector3 camForward = Camera.camera.transform.forward;
         _shaderProgram.SetMatrix4x4("u_proj", proj);
+        _shaderProgram.SetVec3("u_viewDir", camForward);
+
+        // Load in the lights
+        int lightIndex = 0;
+        foreach (var gameObject in _scene.gameObjects)
+        {
+            // Skip object, that are diabled and those with no Light
+            if (!gameObject.enabled || !gameObject.HasComponent<Light>()) { continue; }
+
+            Light light = gameObject.GetComponent<Light>();
+
+            // Set all
+            _shaderProgram.SetVec3($"u_light[{lightIndex}].position", light.transform.GetModelMatrix().MultiplyMatrix(light.transform.position));
+            _shaderProgram.SetVec4($"u_light[{lightIndex}].color", light.Color.ToVector4());
+            _shaderProgram.SetFloat($"u_light[{lightIndex}].intensity", light.Intensity);
+
+            lightIndex++;
+        }
+
+        _shaderProgram.SetFloat("u_LightSize", lightIndex);
 
         // Render scene GameObjects
         foreach (var gameObject in _scene.gameObjects)
@@ -93,7 +114,7 @@ public sealed class Renderer
 
         #region Render Mesh
 
-        glBindVertexArray(mesh.vao);
+        glBindVertexArray(mesh._vao);
 
         fixed (uint* i = &mesh._indices[0])
         {

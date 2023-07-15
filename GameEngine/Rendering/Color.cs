@@ -34,6 +34,7 @@ public struct Color
         B = 255;
         A = 1;
     }
+
     public static readonly Color White = new(255, 255, 255);
     public static readonly Color Black = new(0, 0, 0);
     public static readonly Color Red = new(255, 0, 0);
