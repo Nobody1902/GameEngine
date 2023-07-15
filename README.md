@@ -2,7 +2,7 @@
 - **OpenGL** based ***3D game engine***
 
 <br>
-## *How to run?*
+## How to run?
 1. Open the `GameEngine.sln` file.
 2. Run and modify the `Sandbox` project.
 
