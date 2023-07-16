@@ -19,13 +19,6 @@ public class Shader
         _fragment = fragment;
         _imported = imported;
     }
-    public void CheckImported()
-    {
-        if (_imported)
-        {
-            Console.WriteLine("Imported Shader!");
-        }
-    }
     public void Load()
     {
         uint vs, fs;

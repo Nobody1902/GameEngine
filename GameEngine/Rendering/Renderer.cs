@@ -1,10 +1,6 @@
 ﻿using GameEngine.ECS;
 using GameEngine.ECS.Components;
 using GLFW;
-using System.Drawing;
-using System.Net.Security;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using static GameEngine.OpenGL.GL;
 
 namespace GameEngine.Rendering;
@@ -38,20 +34,24 @@ public sealed class Renderer
     }
     public unsafe void OnLoad()
     {
+        // Enable back face culling
         glEnable(GL_CULL_FACE);
-        glFrontFace(GL_CW);
+        glFrontFace(GL_CCW);
         glCullFace(GL_BACK);
 
         // Enable the depth
         glEnable(GL_DEPTH_TEST);
 
+        // Enable anti-aliasing
+        glEnable(GL_MULTISAMPLE);
+
         // Create shaders
         _shaderProgram.Load();
     }
-
+    static readonly Color BackgroundColor = Color.DarkGray.Normalize();
     public unsafe void Render()
     {
-        glClearColor(0f, 0f, 0f, 1f);
+        glClearColor(BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);
 
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -75,7 +75,7 @@ public sealed class Renderer
             Light light = gameObject.GetComponent<Light>();
 
             // Set all
-            _shaderProgram.SetVec3($"u_light[{lightIndex}].position", light.transform.GetModelMatrix().MultiplyMatrix(light.transform.position));
+            _shaderProgram.SetVec3($"u_light[{lightIndex}].position", light.transform.GetModelMatrix().MultiplyMatrix(light.transform.position * -Vector3.One));
             _shaderProgram.SetVec4($"u_light[{lightIndex}].color", light.Color.ToVector4());
             _shaderProgram.SetFloat($"u_light[{lightIndex}].intensity", light.Intensity);
 
@@ -101,7 +101,7 @@ public sealed class Renderer
     public unsafe void DrawMesh(MeshRenderer meshRend)
     {
         // Get the color to a 0 to 1 range (instead of 0 to 255)
-        Vector4 color = new(((float)meshRend.Color.R)/255, ((float)meshRend.Color.G)/ 255, ((float)meshRend.Color.B) / 255, meshRend.Color.A);
+        Vector4 color = meshRend.Color.Normalize().ToVector4();
         // Get the GameObjects model matrix
         Matrix4x4 model = meshRend.gameObject.transform.GetModelMatrix();
 

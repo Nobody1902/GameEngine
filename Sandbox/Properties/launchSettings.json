@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Sandbox": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "workingDirectory": "$(ProjectDir)/"
     }
   }
 }

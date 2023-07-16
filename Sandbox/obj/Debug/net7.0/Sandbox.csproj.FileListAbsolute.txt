@@ -1,10 +1,4 @@
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\Sandbox.exe
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.frag
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\default.vert
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Cube.model
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Light.model
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\fragment.frag
-C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\shaders\vertex.vert
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\Sandbox.deps.json
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\Sandbox.runtimeconfig.json
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\Sandbox.dll
@@ -22,4 +16,5 @@ C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\refint\Sandb
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.pdb
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.genruntimeconfig.cache
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\ref\Sandbox.dll
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Cube.model
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Sphere.model

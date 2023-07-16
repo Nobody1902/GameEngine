@@ -20,7 +20,7 @@ public sealed class Camera : Component
         }
         // Setup default camera settings
         FOV = 45;
-        nearClip = .01f;
+        nearClip = .7f;
         farClip = 100;
 
         // Set the static camera refrence

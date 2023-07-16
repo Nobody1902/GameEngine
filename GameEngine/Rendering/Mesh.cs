@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using static GameEngine.OpenGL.GL;
 
 
@@ -69,7 +70,9 @@ public struct Mesh
         // Initilize
         _verticies = ToVertexArray(verts);
         _indices = indicies;
-        CalculateNormals();
+        CalculateFlatNormals();
+        //CalculateSmoothNormals();
+        FlipNormals();
 
 //      -----------------------------
 
@@ -134,6 +137,7 @@ public struct Mesh
 
         return floats.ToArray();
     }
+
     private Vertex[] ToVertexArray(float[] verts)
     {
         List<Vertex> vertsList = new();
@@ -150,7 +154,7 @@ public struct Mesh
 
         return vertsList.ToArray();
     }
-    public void CalculateNormals()
+    public void CalculateFlatNormals()
     {
         // https://gamedev.stackexchange.com/questions/152991/how-can-i-calculate-normals-using-a-vertex-and-index-buffer
         
@@ -186,7 +190,6 @@ public struct Mesh
             _verticies[v2] = vertex2;
             _verticies[v3] = vertex3;
         }
-        Console.WriteLine();
         for (int v = 0; v < _verticies.Length; v++)
         {
             Vertex vertex = _verticies[v];
@@ -202,9 +205,128 @@ public struct Mesh
                 _verticies[v].Y_normal = 0;
                 _verticies[v].Z_normal = 0;
             }
-            Console.WriteLine(_verticies[v].GetNormal());
         }
     }
+
+    public void CalculateSmoothNormals()
+    {
+        // Initialize all vertex normals to zero
+        for (int i = 0; i < _verticies.Length; i++)
+        {
+            _verticies[i].X_normal = 0;
+            _verticies[i].Y_normal = 0;
+            _verticies[i].Z_normal = 0;
+        }
+
+        // Calculate the normal of each triangle and add it to each vertex that is part of the triangle
+        for (int i = 0; i < _indices.Length; i += 3)
+        {
+            int i1 = GetVertexPosFromIndex(_indices[i]);
+            int i2 = GetVertexPosFromIndex(_indices[i + 1]);
+            int i3 = GetVertexPosFromIndex(_indices[i + 2]);
+
+            Vector3 v1 = new(_verticies[i1].X, _verticies[i1].Y, _verticies[i1].Z);
+            Vector3 v2 = new(_verticies[i2].X, _verticies[i2].Y, _verticies[i2].Z);
+            Vector3 v3 = new(_verticies[i3].X, _verticies[i3].Y, _verticies[i3].Z);
+
+            Vector3 normal = Vector3.Cross(v3 - v1, v2 - v1);
+
+            _verticies[i1].X_normal += normal.X;
+            _verticies[i1].Y_normal += normal.Y;
+            _verticies[i1].Z_normal += normal.Z;
+
+            _verticies[i2].X_normal += normal.X;
+            _verticies[i2].Y_normal += normal.Y;
+            _verticies[i2].Z_normal += normal.Z;
+
+            _verticies[i3].X_normal += normal.X;
+            _verticies[i3].Y_normal += normal.Y;
+            _verticies[i3].Z_normal += normal.Z;
+        }
+
+        // Normalize all vertex normals
+        for (int i = 0; i < _verticies.Length; i++)
+        {
+            Vector3 normal = _verticies[i].GetNormal().Normalized();
+            _verticies[i].X_normal = normal.X;
+            _verticies[i].Y_normal = normal.Y;
+            _verticies[i].Z_normal = normal.Z;
+        }
+
+        // Calculate the weighted average of the normals of all the faces that share each vertex
+        for (int i = 0; i < _verticies.Length; i++)
+        {
+            Vector3 normal = new();
+            float totalWeight = 0;
+
+            for (int j = 0; j < _indices.Length; j += 3)
+            {
+                int i1 = GetVertexPosFromIndex(_indices[j]);
+                int i2 = GetVertexPosFromIndex(_indices[j + 1]);
+                int i3 = GetVertexPosFromIndex(_indices[j + 2]);
+
+                if (i1 == i || i2 == i || i3 == i)
+                {
+                    Vector3 faceNormal = new();
+                    float weight = 0;
+
+                    if (i1 == i)
+                    {
+                        Vector3 v1 = new(_verticies[i1].X, _verticies[i1].Y, _verticies[i1].Z);
+                        Vector3 v2 = new(_verticies[i2].X, _verticies[i2].Y, _verticies[i2].Z);
+                        Vector3 v3 = new(_verticies[i3].X, _verticies[i3].Y, _verticies[i3].Z);
+
+                        faceNormal = Vector3.Cross(v3 - v1, v2 - v1);
+                        weight = Vector3.Dot(faceNormal.Normalized(), new Vector3(_verticies[i1].X_normal, _verticies[i1].Y_normal, _verticies[i1].Z_normal).Normalized());
+                    }
+                    else if (i2 == i)
+                    {
+                        Vector3 v1 = new(_verticies[i2].X, _verticies[i2].Y, _verticies[i2].Z);
+                        Vector3 v2 = new(_verticies[i3].X, _verticies[i3].Y, _verticies[i3].Z);
+                        Vector3 v3 = new(_verticies[i1].X, _verticies[i1].Y, _verticies[i1].Z);
+
+                        faceNormal = Vector3.Cross(v3 - v1, v2 - v1);
+                        weight = Vector3.Dot(faceNormal.Normalized(), new Vector3(_verticies[i2].X_normal, _verticies[i2].Y_normal, _verticies[i2].Z_normal).Normalized());
+                    }
+                    else if (i3 == i)
+                    {
+                        Vector3 v1 = new(_verticies[i3].X, _verticies[i3].Y, _verticies[i3].Z);
+                        Vector3 v2 = new(_verticies[i1].X, _verticies[i1].Y, _verticies[i1].Z);
+                        Vector3 v3 = new(_verticies[i2].X, _verticies[i2].Y, _verticies[i2].Z);
+
+                        faceNormal = Vector3.Cross(v3 - v1, v2 - v1);
+                        weight = Vector3.Dot(faceNormal.Normalized(), new Vector3(_verticies[i3].X_normal, _verticies[i3].Y_normal, _verticies[i3].Z_normal).Normalized());
+                    }
+
+                    normal += faceNormal * weight;
+                    totalWeight += weight;
+                }
+            }
+
+            if (totalWeight > 0)
+            {
+                normal /= totalWeight;
+            }
+
+            normal = normal.Normalized();
+
+            _verticies[i].X_normal = normal.X;
+            _verticies[i].Y_normal = normal.Y;
+            _verticies[i].Z_normal = normal.Z;
+        }
+    }
+
+    public void FlipNormals()
+    {
+        for (int i = 0; i < _verticies.Length; i++)
+        {
+            Vector3 flipedNormal = -_verticies[i].GetNormal();
+            _verticies[i].X_normal = flipedNormal.X;
+            _verticies[i].Y_normal = flipedNormal.Y;
+            _verticies[i].Z_normal = flipedNormal.Z;
+        }
+    }
+
     private static int GetVertexPosFromIndex(uint index)
     {
         return Convert.ToInt32(index);

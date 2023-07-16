@@ -1,59 +1,82 @@
 import math
+import numpy as np
 
+def generate_icosphere(radius, lod):
+    # Define the icosahedron vertices
+    t = (1.0 + math.sqrt(5.0)) / 2.0
+    vertices = np.array([
+        [-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0],
+        [0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t],
+        [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]
+    ])
 
-def generate_sphere(radius, lod):
-    vertices = []
-    indices = []
-    index = 0
+    # Define the icosahedron faces
+    faces = np.array([
+        [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
+        [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
+        [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
+        [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]
+    ])
 
+    # Move the vertices towards the surface of a sphere
     for i in range(lod):
-        theta1 = i * math.pi / lod
-        theta2 = (i + 1) * math.pi / lod
+        # Normalize the vertices
+        vertices = normalize(vertices)
 
-        for j in range(lod):
-            phi1 = j * 2 * math.pi / lod
-            phi2 = (j + 1) * 2 * math.pi / lod
+        # Move the vertices towards the surface of a sphere
+        vertices *= radius
 
-            # Generate vertices
-            v1 = [
-                radius * math.sin(theta1) * math.cos(phi1),
-                radius * math.sin(theta1) * math.sin(phi1),
-                radius * math.cos(theta1),
-            ]
-            v2 = [
-                radius * math.sin(theta1) * math.cos(phi2),
-                radius * math.sin(theta1) * math.sin(phi2),
-                radius * math.cos(theta1),
-            ]
-            v3 = [
-                radius * math.sin(theta2) * math.cos(phi2),
-                radius * math.sin(theta2) * math.sin(phi2),
-                radius * math.cos(theta2),
-            ]
-            v4 = [
-                radius * math.sin(theta2) * math.cos(phi1),
-                radius * math.sin(theta2) * math.sin(phi1),
-                radius * math.cos(theta2),
-            ]
+        # Subdivide the faces recursively
+        new_faces = []
+        for face in faces:
+            # Get the vertices of the face
+            v1 = vertices[face[0]]
+            v2 = vertices[face[1]]
+            v3 = vertices[face[2]]
 
-            # Add vertices to list
-            vertices.extend([v1, v2, v3, v4])
+            # Calculate the midpoints of the edges
+            v12 = normalize((v1 + v2) / 2)
+            v23 = normalize((v2 + v3) / 2)
+            v31 = normalize((v3 + v1) / 2)
 
-            # Generate indices
-            indices.extend([index, index + 1, index + 2])
-            indices.extend([index, index + 2, index + 3])
-            index += 4
+            # Add the new vertices to the list
+            vertices = np.vstack((vertices, v12, v23, v31))
 
-    return vertices, indices
+            # Get the indices of the new vertices
+            v12_index = len(vertices) - 3
+            v23_index = len(vertices) - 2
+            v31_index = len(vertices) - 1
+
+            # Add the new faces
+            new_faces.append([face[0], v12_index, v31_index])
+            new_faces.append([face[1], v23_index, v12_index])
+            new_faces.append([face[2], v31_index, v23_index])
+            new_faces.append([v12_index, v23_index, v31_index])
+
+        # Replace the old faces with the new ones
+        faces = np.array(new_faces)
+
+    # Normalize the vertices
+    vertices = normalize(vertices)
+
+    # Move the vertices towards the surface of a sphere
+    vertices *= radius
+
+    return vertices.tolist(), faces.tolist()
+
+def normalize(v):
+    norm = np.linalg.norm(v, axis=-1, keepdims=True)
+    norm[norm == 0] = 1
+    return v / norm
 
 
 def gen_file(vertices, indices, filename="output.model"):
     file = "//Auto generated\n#verts"
 
     for vert in vertices:
-        file += f"\n{round(vert[0], 2)},"
-        file += f"{round(vert[1], 2)},"
-        file += f"{round(vert[2], 2)},"
+        file += f"\n{round(vert[0], 6)},"
+        file += f"{round(vert[1], 6)},"
+        file += f"{round(vert[2], 6)},"
 
     file += "\n#inds\n"
 
@@ -64,12 +87,12 @@ def gen_file(vertices, indices, filename="output.model"):
         f.write(file)
 
 
-lod = input("Enter the lod (default:15): ")
+lod = input("Enter the lod (default:3): ")
 if not lod:
-    lod = "15"
+    lod = "3"
 
 lod = int(lod)
-vertices, indices = generate_sphere(0.5, lod)
+vertices, indices = generate_icosphere(0.5, lod)
 
 filename = input("Enter filename: ") + ".model"
 gen_file(vertices, indices, filename)

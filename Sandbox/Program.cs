@@ -22,16 +22,16 @@ cam.AddComponent<CameraController>();
 cam.transform.position = new(0, 0f, -3f);
 #endregion
 
-#region Cube
-// Load the cube mesh
-Mesh mesh = MeshLoader.Load("models/Sphere.model");
+#region Sphere
+// Load the sphere mesh
+Mesh mesh = MeshLoader.Load("models/Icosphere.model");
 Console.WriteLine(mesh._verticies.Length);
-GameObject cube = new("Cube");
-cube.transform.scale = Vector3.One;
+GameObject sphere = new("Sphere");
+sphere.transform.scale = Vector3.One;
 // Add the custom Rotator class
-cube.AddComponent<Rotator>().Speed = 50_000_000f;
+sphere.AddComponent<Rotator>().Speed = 50_000_000f;
 // Add and store the MeshRenderer
-MeshRenderer rend = cube.AddComponent<MeshRenderer>();
+MeshRenderer rend = sphere.AddComponent<MeshRenderer>();
 // Set the mesh to render
 rend.SetMesh(mesh);
 // Set the color
@@ -43,12 +43,36 @@ rend.SetColor(Color.White);
 Mesh lightMesh = MeshLoader.Load("models/Cube.model");
 
 var light = new GameObject("Light");
-light.AddComponent<Light>().Color = Color.White;
-light.GetComponent<Light>().Intensity = .7f;
-light.transform.position = new(0, -2, 0f);
+light.AddComponent<Light>().Color = Color.Red;
+light.GetComponent<Light>().Intensity = .8f;
+light.transform.position = new(2, 0, 0f);
 light.transform.scale = new(.4f);
 
 light.AddComponent<MeshRenderer>().SetMesh(lightMesh);
+
+var light2 = new GameObject("Light2");
+light2.AddComponent<Light>().Color = Color.Blue;
+light2.GetComponent<Light>().Intensity = .8f;
+light2.transform.position = new(-2, 0f, 0f);
+light2.transform.scale = new(.4f);
+
+light2.AddComponent<MeshRenderer>().SetMesh(lightMesh);
+
+
+var light3 = new GameObject("Light3");
+light3.AddComponent<Light>().Color = Color.Green;
+light3.GetComponent<Light>().Intensity = .8f;
+light3.transform.position = new(0, 2f, 0f);
+light3.transform.scale = new(.4f);
+
+light3.AddComponent<MeshRenderer>().SetMesh(lightMesh);
+
+var light4 = new GameObject("Light4");
+light4.AddComponent<Light>().Color = Color.White;
+light4.GetComponent<Light>().Intensity = .2f;
+light4.transform.position = new(0, -2f, 0f);
+light4.transform.scale = new(.4f);
+light4.AddComponent<MeshRenderer>().SetMesh(lightMesh);
 
 #endregion
 
@@ -56,8 +80,11 @@ light.AddComponent<MeshRenderer>().SetMesh(lightMesh);
 scene.AddObject(cam);
 
 scene.AddObject(light);
+scene.AddObject(light2);
+scene.AddObject(light3);
+scene.AddObject(light4);
 
-scene.AddObject(cube);
+scene.AddObject(sphere);
 
 // Start the app
 app.SetScene(scene);

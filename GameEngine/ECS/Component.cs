@@ -1,4 +1,6 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace GameEngine.ECS;
 
 public class Component
@@ -44,5 +46,4 @@ public class Component
     public virtual void OnDestroy() { }
     public virtual void OnEnable() { }
     public virtual void OnDisable() { }
-
 }

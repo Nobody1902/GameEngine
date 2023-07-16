@@ -72,8 +72,8 @@ public static class MeshLoader
                         continue;
                     }
 
-                    string parsed = v.Replace(" ", "");
-                    parsed = parsed.Replace(",", "");
+                    string parsed = v.Replace(" ", "").Replace("(","").Replace(")", "");
+                    parsed = parsed.Replace(",", "").Replace("[", "").Replace("]", "");
 
                     uint i = uint.Parse(parsed);
 
@@ -82,9 +82,7 @@ public static class MeshLoader
             }
 
 
-        }    
-
-
+        }
         return new(verticies.ToArray(), indicies.ToArray());
     }
 

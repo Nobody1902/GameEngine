@@ -1,11 +1,13 @@
-﻿namespace GameEngine.ECS;
+﻿using System.Runtime.Serialization;
+
+namespace GameEngine.ECS;
 
 public class GameObject
 {
     public string name { get; private set; }
     public Guid uuid { get; init; } 
     public bool enabled { get; private set; }
-    public bool _destroyed = false;
+    public bool _destroyed { get; private set; } = false;
 
     public event EventHandler? startEvent;
     public event EventHandler? enableEvent;
@@ -72,7 +74,11 @@ public class GameObject
     public T AddComponent<T>() where T : Component
     {
         T component = (T)Activator.CreateInstance(typeof(T), new object[] { this }) ?? throw new Exception("Error adding component.");
-        _components.Add(component);
+        bool added = _components.Add(component);
+        if(added == false)
+        {
+            throw new Exception($"{name} already has {typeof(T).Name}");
+        }
         return component;
     }
     public T GetComponent<T>() where T : Component

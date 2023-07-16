@@ -1,6 +1,7 @@
 ﻿using GameEngine.ECS;
 using GameEngine.Rendering;
 using GLFW;
+using System.Runtime.CompilerServices;
 using static GameEngine.OpenGL.GL;
 
 using Window = GameEngine.Rendering.Window;
@@ -23,8 +24,37 @@ public sealed class Application
         _title = title;
         _size = size;
 
+        string vertex = "#version 330 core" + "\n" +
+            "layout(location = 0) in vec3 aPosition;" + "\n" +
+            "layout(location = 1) in vec3 aNormal;" + "\n" +
+            "uniform mat4 u_proj;" + "\n" +
+            "uniform mat4 u_model;" + "\n" +
 
-        _window = new Window(_title, _size);
+            "out vec3 oNormal;" + "\n" +
+
+            "void main()" + "\n" +
+            "{" + "\n" +
+                "oNormal = aNormal;" + "\n" +
+                "gl_Position = u_proj * u_model * vec4(aPosition, 1.0);" + "\n" +
+            "}";
+
+        string fragment = "#version 330 core" + "\n" +
+
+            "uniform vec4 u_color;" + "\n" +
+
+            "in vec3 oNormal;" + "\n" +
+
+            "out vec4 FragColor;" + "\n" +
+
+            "void main()" + "\n" +
+            "{" + "\n" +
+                "FragColor = vec4(abs(oNormal), 1.0);" + "\n" +
+            "}";
+
+        File.WriteAllText("shaders/default.vert", vertex);
+        File.WriteAllText("shaders/default.frag", fragment);
+
+        _window = new Window(_title, _size, 8);
 
         _scene = Scene.Empty;
 

@@ -49,7 +49,7 @@ void main()
         float diff = max(dot(normal, lightDir), 0.0);
         diffuse += diff * u_light[i].intensity/2;
 
-        color += u_light[i].color * u_light[i].intensity/2;
+        color += u_light[i].color * u_light[i].intensity/2 * diff;
 
         // Specular
         float specularLight = .5;
