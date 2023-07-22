@@ -1,7 +1,4 @@
-﻿using GameEngine.Rendering;
-using System.Runtime.CompilerServices;
-
-namespace GameEngine;
+﻿namespace GameEngine;
 
 public static class ExtensionMethods
 {

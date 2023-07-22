@@ -48,7 +48,7 @@ public sealed class Renderer
         // Create shaders
         _shaderProgram.Load();
     }
-    static readonly Color BackgroundColor = Color.DarkGray.Normalize();
+    public Color BackgroundColor = Color.Gray.Normalize();
     public unsafe void Render()
     {
         glClearColor(BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);
@@ -56,15 +56,46 @@ public sealed class Renderer
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Use the shader program
-        _shaderProgram.Use();
 
+        // Render scene GameObjects
+        foreach (var gameObject in _scene.gameObjects)
+        {
+            // Skip object that are diabled and those with no MeshRenderer
+            if (!gameObject.enabled || (!gameObject.HasComponent<MeshRenderer>())) { continue; }
+
+            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+            // Get the shader program
+            Shader _shader = _shaderProgram;
+            if(meshRenderer?.Shader != null)
+            {
+                _shader = meshRenderer.Shader;
+            }
+
+            // Use the shader program
+            _shader.Use();
+            LoadCamera(_shader);
+            LoadLights(_shader);
+
+            // Draw
+            DrawMesh(meshRenderer!, _shader);
+
+        }
+
+        Glfw.SwapBuffers(_window._window);
+    }
+
+    private static unsafe void LoadCamera(Shader _shader)
+    {
         // Set the camera projection uniform
         Matrix4x4 proj = Camera.camera.GetMatrix();
         Vector3 camForward = Camera.camera.transform.forward;
-        _shaderProgram.SetMatrix4x4("u_proj", proj);
-        _shaderProgram.SetVec3("u_viewDir", camForward);
+        _shader.SetMatrix4x4("u_proj", proj);
+        _shader.SetVec3("u_viewDir", camForward);
+    }
 
+    private unsafe void LoadLights(Shader _shader)
+    {
         // Load in the lights
         int lightIndex = 0;
         foreach (var gameObject in _scene.gameObjects)
@@ -75,30 +106,17 @@ public sealed class Renderer
             Light light = gameObject.GetComponent<Light>();
 
             // Set all
-            _shaderProgram.SetVec3($"u_light[{lightIndex}].position", light.transform.GetModelMatrix().MultiplyMatrix(light.transform.position * -Vector3.One));
-            _shaderProgram.SetVec4($"u_light[{lightIndex}].color", light.Color.ToVector4());
-            _shaderProgram.SetFloat($"u_light[{lightIndex}].intensity", light.Intensity);
+            _shader.SetVec3($"u_light[{lightIndex}].position", light.transform.GetModelMatrix().MultiplyMatrix(light.transform.position * -Vector3.One));
+            _shader.SetVec4($"u_light[{lightIndex}].color", light.Color.ToVector4());
+            _shader.SetFloat($"u_light[{lightIndex}].intensity", light.Intensity);
 
             lightIndex++;
         }
 
-        _shaderProgram.SetFloat("u_LightSize", lightIndex);
-
-        // Render scene GameObjects
-        foreach (var gameObject in _scene.gameObjects)
-        {
-            // Skip object that are diabled and those with no MeshRenderer
-            if (!gameObject.enabled || !gameObject.HasComponent<MeshRenderer>()) { continue; }
-
-            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-
-            DrawMesh(meshRenderer);
-        }
-
-        Glfw.SwapBuffers(_window._window);
+        _shader.SetFloat("u_LightSize", lightIndex);
     }
 
-    public unsafe void DrawMesh(MeshRenderer meshRend)
+    public unsafe void DrawMesh(MeshRenderer meshRend, Shader _shader)
     {
         // Get the color to a 0 to 1 range (instead of 0 to 255)
         Vector4 color = meshRend.Color.Normalize().ToVector4();
@@ -106,8 +124,8 @@ public sealed class Renderer
         Matrix4x4 model = meshRend.gameObject.transform.GetModelMatrix();
 
         // Set the color and model matrix uniforms
-        _shaderProgram.SetVec4("u_color", color);
-        _shaderProgram.SetMatrix4x4("u_model", model);
+        _shader.SetVec4("u_color", color);
+        _shader.SetMatrix4x4("u_model", model);
 
         // Get the mesh
         Mesh mesh = meshRend.Mesh;

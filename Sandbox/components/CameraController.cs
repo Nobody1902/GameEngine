@@ -1,13 +1,11 @@
 ﻿using GameEngine;
 using GameEngine.ECS;
-using System.Numerics;
 
 public class CameraController : Component
 {
     public CameraController(GameObject gameObject) : base(gameObject)
     {
     }
-
     public float speed = 1_000_000f;
 
     public override void Update()

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
-namespace GameEngine.Rendering;
+namespace GameEngine;
 
-public struct Color
+[Serializable]
+public struct Color : ISerializable
 {
     public float R { get; set; }
     public float G { get; set; }
@@ -36,7 +33,26 @@ public struct Color
     }
     public Color Normalize()
     {
-        return new(R/255f, G/255f, B/255f, A);
+        return new(R / 255f, G / 255f, B / 255f, A);
+    }
+    public Color(SerializationInfo info, StreamingContext context)
+    {
+        R = info.GetSingle(nameof(R));
+        G = info.GetSingle(nameof(G));
+        B = info.GetSingle(nameof(B));
+        A = info.GetSingle(nameof(A));
+    }
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue(nameof(R), R);
+        info.AddValue(nameof(G), G);
+        info.AddValue(nameof(B), B);
+        info.AddValue(nameof(A), A);
+    }
+
+    public override string ToString()
+    {
+        return $"Color({R},{G},{B},{A})";
     }
 
     public static readonly Color White = new(255, 255, 255);

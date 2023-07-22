@@ -1,8 +1,6 @@
 ﻿using GameEngine.ECS;
 using GameEngine.Rendering;
 using GLFW;
-using System.Runtime.CompilerServices;
-using static GameEngine.OpenGL.GL;
 
 using Window = GameEngine.Rendering.Window;
 
@@ -82,11 +80,12 @@ public sealed class Application
         Glfw.SetMouseButtonCallback(_window._window, Input._mouseButtonCallback);
         Glfw.SetCursorPositionCallback(_window._window, Input._mouseCallback);
 
+        Logger.Log("Loading...");
+
         _renderer.OnLoad();
         Input.OnLoad();
 
-
-
+        Logger.Log("Starting...");
         // Reset Time
         Glfw.Time = 0;
         double lastTime = Glfw.Time;
@@ -121,7 +120,6 @@ public sealed class Application
             DeltaTime = (float)(Glfw.Time - lastTime) / 1000000.0f;
             lastTime = Glfw.Time;
         }
-        _window.CloseWindow();
         // No need to call CloseWindow as it should happen automatically
     }
 

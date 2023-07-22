@@ -18,3 +18,5 @@ C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\Sandbox.genr
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\obj\Debug\net7.0\ref\Sandbox.dll
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Cube.model
 C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\models\Sphere.model
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\bin\Debug\net7.0\AutoMapper.dll

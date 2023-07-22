@@ -21,12 +21,18 @@ public sealed class Window : IDisposable
         _title = title;
         _size = size;
 
+
+        Logger.Log("Creating window...");
         if (CreateWindow() == 1)
         {
-            throw new System.Exception("Couldn't create GLFW window.");
+            Logger.Error("Couldn't create GLFW window.");
         }
         window = this;
         this.samples = samples;
+        if(this.samples > 8)
+        {
+            Logger.Warning("The sample count might effect performance.");
+        }
     }
 
     public void Dispose()
@@ -92,8 +98,10 @@ public sealed class Window : IDisposable
     public void PollEvents()
     {
         Glfw.PollEvents();
-
-        Glfw.SetWindowTitle(_window, _title + " - " + Time.FPS + " FPS");
+    }
+    public void SetTitle(string title)
+    {
+        Glfw.SetWindowTitle(_window, title);
     }
 
     public void Show()

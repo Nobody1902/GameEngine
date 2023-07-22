@@ -1,11 +1,10 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.Serialization;
 using static GameEngine.OpenGL.GL;
 
 
 namespace GameEngine.Rendering;
 
-public struct Vertex
+public struct Vertex : ISerializable
 {
     public float X;
     public float Y;
@@ -54,12 +53,30 @@ public struct Vertex
     {
         return new(X_normal, Y_normal, Z_normal);
     }
-}
+    public Vertex(SerializationInfo info, StreamingContext context)
+    {
+        X = info.GetSingle("x");
+        Y = info.GetSingle("y");
+        Z = info.GetSingle("z");
 
-public struct Mesh
+        X_normal = 0;
+        Y_normal = 0;
+        Z_normal = 0;
+    }
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue(nameof(X), X);
+        info.AddValue(nameof(Y), Y);
+        info.AddValue(nameof(Z), Z);
+    }
+}
+[Serializable]
+public struct Mesh : ISerializable
 {
     public Vertex[] _verticies { get; private set; }
     public uint[] _indices { get; private set; }
+
+    public string Location;
 
     public uint _vao { get; private set; }
     public uint _vbo { get; private set; }
@@ -67,15 +84,24 @@ public struct Mesh
     
     public unsafe Mesh(float[] verts, uint[] indicies)
     {
+        Location = "";
         // Initilize
         _verticies = ToVertexArray(verts);
         _indices = indicies;
         CalculateFlatNormals();
-        //CalculateSmoothNormals();
         FlipNormals();
-
-//      -----------------------------
-
+    }
+    public Mesh(float[] verts, uint[] indicies, string source)
+    {
+        // Initilize
+        Location = source;
+        _verticies = ToVertexArray(verts);
+        _indices = indicies;
+        CalculateFlatNormals();
+        FlipNormals();
+    }
+    public unsafe void _Load()
+    {
         _vao = glGenVertexArray();
         glBindVertexArray(_vao);
 
@@ -95,7 +121,7 @@ public struct Mesh
         // - Vertex positions
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)0);
         // - Vertex normals
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * sizeof(float), 3*sizeof(float));
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * sizeof(float), 3 * sizeof(float));
 
         // Enable both
         glEnableVertexAttribArray(0);
@@ -106,54 +132,17 @@ public struct Mesh
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 
         // Buffer the indicies in the _ibo
-        fixed (uint* i = &indicies[0])
+        fixed (uint* i = &_indices[0])
         {
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.Length, i, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.Length, i, GL_STATIC_DRAW);
         }
 
         // Unbind everything
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-
-    }
-    private static float[] ToFloatArray(Vertex[] vertices)
-    {
-        if(vertices.Length == 0) return Array.Empty<float>();
-
-        List<float> floats = new();
-
-        foreach(Vertex v in vertices)
-        {
-            floats.Add(v.X);
-            floats.Add(v.Y);
-            floats.Add(v.Z);
-
-            floats.Add(v.X_normal);
-            floats.Add(v.Y_normal);
-            floats.Add(v.Z_normal);
-        }
-
-
-        return floats.ToArray();
     }
 
-    private Vertex[] ToVertexArray(float[] verts)
-    {
-        List<Vertex> vertsList = new();
-
-        for (int i = 0; i < verts.Length; i+=3)
-        {
-            float v = verts[i];
-            float v1 = verts[i + 1];
-            float v2 = verts[i + 2];
-
-            Vertex vertex = new(v, v1, v2);
-            vertsList.Add(vertex);
-        }
-
-        return vertsList.ToArray();
-    }
     public void CalculateFlatNormals()
     {
         // https://gamedev.stackexchange.com/questions/152991/how-can-i-calculate-normals-using-a-vertex-and-index-buffer
@@ -210,14 +199,6 @@ public struct Mesh
 
     public void CalculateSmoothNormals()
     {
-        // Initialize all vertex normals to zero
-        for (int i = 0; i < _verticies.Length; i++)
-        {
-            _verticies[i].X_normal = 0;
-            _verticies[i].Y_normal = 0;
-            _verticies[i].Z_normal = 0;
-        }
-
         // Calculate the normal of each triangle and add it to each vertex that is part of the triangle
         for (int i = 0; i < _indices.Length; i += 3)
         {
@@ -327,8 +308,59 @@ public struct Mesh
         }
     }
 
+    #region Helper methods
+    private static float[] ToFloatArray(Vertex[] vertices)
+    {
+        if(vertices.Length == 0) return Array.Empty<float>();
+
+        List<float> floats = new();
+
+        foreach(Vertex v in vertices)
+        {
+            floats.Add(v.X);
+            floats.Add(v.Y);
+            floats.Add(v.Z);
+
+            floats.Add(v.X_normal);
+            floats.Add(v.Y_normal);
+            floats.Add(v.Z_normal);
+        }
+
+
+        return floats.ToArray();
+    }
+
+    private static Vertex[] ToVertexArray(float[] verts)
+    {
+        List<Vertex> vertsList = new();
+
+        for (int i = 0; i < verts.Length; i+=3)
+        {
+            float v = verts[i];
+            float v1 = verts[i + 1];
+            float v2 = verts[i + 2];
+
+            Vertex vertex = new(v, v1, v2);
+            vertsList.Add(vertex);
+        }
+
+        return vertsList.ToArray();
+    }
+
     private static int GetVertexPosFromIndex(uint index)
     {
         return Convert.ToInt32(index);
     }
+
+    public Mesh(SerializationInfo info, StreamingContext context)
+    {
+        Location = info.GetString(nameof(Location))!;
+        this = MeshLoader.Load(Location);
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue(nameof(Location), Location);
+    }
+    #endregion
 }

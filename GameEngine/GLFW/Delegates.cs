@@ -24,8 +24,8 @@ namespace GLFW
     ///     This is the function signature for cursor position callback functions.
     /// </summary>
     /// <param name="window">The window handle.</param>
-    /// <param name="x">The new cursor x-coordinate, relative to the left edge of the client area.</param>
-    /// <param name="y">The new cursor y-coordinate, relative to the left edge of the client area.</param>
+    /// <param name="x">The new cursor X-coordinate, relative to the left edge of the client area.</param>
+    /// <param name="y">The new cursor Y-coordinate, relative to the left edge of the client area.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void PositionCallback(Window window, double x, double y);
 
@@ -57,8 +57,8 @@ namespace GLFW
     ///     This is the function signature for cursor position callback functions.
     /// </summary>
     /// <param name="window">The window handle recieving the event.</param>
-    /// <param name="x">The new cursor x-coordinate, relative to the left edge of the client area.</param>
-    /// <param name="y">The new cursor y-coordinate, relative to the left edge of the client area.</param>
+    /// <param name="x">The new cursor X-coordinate, relative to the left edge of the client area.</param>
+    /// <param name="y">The new cursor Y-coordinate, relative to the left edge of the client area.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void MouseCallback(Window window, double x, double y);
 
@@ -137,8 +137,8 @@ namespace GLFW
     ///     This is the function signature for window content scale callback functions.
     /// </summary>
     /// <param name="window">The window whose content scale changed.</param>
-    /// <param name="xScale">The new x-axis content scale of the window.</param>
-    /// <param name="yScale">The new y-axis content scale of the window.</param>
+    /// <param name="xScale">The new X-axis content scale of the window.</param>
+    /// <param name="yScale">The new Y-axis content scale of the window.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void WindowContentsScaleCallback(Window window, float xScale, float yScale);
 

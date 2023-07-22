@@ -1,16 +1,27 @@
 ﻿using GameEngine.ECS.Components;
+using Newtonsoft.Json;
 
 namespace GameEngine.ECS;
 
 public sealed class Transform : Component
 {
-    public Vector3 position {  get; set; }
+    public Vector3 position { get; set; }
     public Vector3 rotation { get; set; }
     public Vector3 scale { get; set; }
 
-    public Vector3 forward;
-    public Vector3 right;
-    public Vector3 up;
+    [JsonIgnore]
+    private Vector3 _forward;
+    [JsonIgnore]
+    private Vector3 _right;
+    [JsonIgnore]
+    private Vector3 _up;
+
+    [JsonIgnore]
+    public Vector3 forward { get { return _forward; } }
+    [JsonIgnore]
+    public Vector3 right { get { return _right; } }
+    [JsonIgnore]
+    public Vector3 up { get { return _up; } }
 
     public Transform(GameObject gameObject) : base(gameObject)
     {
@@ -18,9 +29,9 @@ public sealed class Transform : Component
         rotation = Vector3.Zero;
         scale = Vector3.One;
 
-        up = new(0, 1, 0);
-        forward = new(0, 0, 1);
-        right = new(1, 0, 0);
+        _up = new(0, 1, 0);
+        _forward = new(0, 0, 1);
+        _right = new(1, 0, 0);
     }
     public override void Update()
     {
@@ -28,19 +39,19 @@ public sealed class Transform : Component
         var pitch = rotation.Y;
         var roll = rotation.Z;
 
-        forward.X = MathF.Cos(pitch) * MathF.Sin(yaw);
-        forward.Y = -MathF.Sin(pitch);
-        forward.Z = MathF.Cos(pitch) * MathF.Cos(yaw);
+        _forward.X = MathF.Cos(pitch) * MathF.Sin(yaw);
+        _forward.Y = -MathF.Sin(pitch);
+        _forward.Z = MathF.Cos(pitch) * MathF.Cos(yaw);
 
-        right.X = MathF.Cos(yaw);
-        right.Y = 0;
-        right.Z = -MathF.Sin(yaw);
+        _right.X = MathF.Cos(yaw);
+        _right.Y = 0;
+        _right.Z = -MathF.Sin(yaw);
 
-        up = Vector3.Cross(forward, right);
+        _up = Vector3.Cross(_forward, _right);
 
-        forward = Round(forward);
-        right = Round(right);
-        up = Round(up);
+        _forward = Round(_forward);
+        _right = Round(_right);
+        _up = Round(_up);
     }
 
     static Vector3 Round(Vector3 v)

@@ -15,12 +15,12 @@ namespace GLFW
         ///     Initializes a new instance of the <see cref="MouseMoveEventArgs" /> class.
         /// </summary>
         /// <param name="x">
-        ///     The cursor x-coordinate, relative to the left edge of the client area, or the amount of movement on
-        ///     x-axis if this is scroll event.
+        ///     The cursor X-coordinate, relative to the left edge of the client area, or the amount of movement on
+        ///     X-axis if this is scroll event.
         /// </param>
         /// <param name="y">
-        ///     The cursor y-coordinate, relative to the left edge of the client area, or the amount of movement on
-        ///     y-axis if this is scroll event.
+        ///     The cursor Y-coordinate, relative to the left edge of the client area, or the amount of movement on
+        ///     Y-axis if this is scroll event.
         /// </param>
         public MouseMoveEventArgs(double x, double y)
         {
@@ -41,20 +41,20 @@ namespace GLFW
         public Point Position => new Point(Convert.ToInt32(X), Convert.ToInt32(Y));
 
         /// <summary>
-        ///     Gets the cursor x-coordinate, relative to the left edge of the client area, or the amount of movement on
-        ///     x-axis if this is scroll event.
+        ///     Gets the cursor X-coordinate, relative to the left edge of the client area, or the amount of movement on
+        ///     X-axis if this is scroll event.
         /// </summary>
         /// <value>
-        ///     The location on the x-axis.
+        ///     The location on the X-axis.
         /// </value>
         public double X { get; }
 
         /// <summary>
-        ///     Gets the cursor y-coordinate, relative to the left edge of the client area, or the amount of movement on
-        ///     y-axis if this is scroll event.
+        ///     Gets the cursor Y-coordinate, relative to the left edge of the client area, or the amount of movement on
+        ///     Y-axis if this is scroll event.
         /// </summary>
         /// <value>
-        ///     The location on the y-axis.
+        ///     The location on the Y-axis.
         /// </value>
         public double Y { get; }
 

@@ -1,12 +1,12 @@
 ﻿using GameEngine;
 using GameEngine.ECS;
 using GameEngine.ECS.Components;
-using System.Numerics;
 
 public class Rotator : Component
 {
     public Rotator(GameObject gameObject) : base(gameObject)
     {}
+
     public float Speed = 10_000_000f;
     public override void Update()
     {

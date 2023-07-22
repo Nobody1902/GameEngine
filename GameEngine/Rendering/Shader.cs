@@ -105,7 +105,9 @@ public class Shader
     public static Shader LoadShader(string vertexPath, string fragmentPath)
     {
         string vertexCode = File.ReadAllText(vertexPath);
+        Logger.Log($"Loaded shader {vertexPath}");
         string fragmentCode = File.ReadAllText(fragmentPath);
+        Logger.Log($"Loaded shader {fragmentPath}");
 
         return new(vertexCode, fragmentCode, true);
     }

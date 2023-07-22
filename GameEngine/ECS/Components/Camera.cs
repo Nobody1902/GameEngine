@@ -1,31 +1,29 @@
 ﻿using GameEngine.Rendering;
-using System;
+using Newtonsoft.Json;
 
 namespace GameEngine.ECS.Components;
 
 public sealed class Camera : Component
 {
-    public float FOV;
-    public float nearClip;
-    public float farClip;
+
+    public float FOV = 45;
+    public float nearClip = .7f;
+    public float farClip = 100;
 
     public static Camera camera;
 
     public Camera(GameObject gameObject) : base(gameObject)
     {
-        if (camera != null)
+        /*if (camera != null)
         {
             camera = this;
             throw new Exception("Multiple cameras in scene!");
-        }
-        // Setup default camera settings
-        FOV = 45;
-        nearClip = .7f;
-        farClip = 100;
+        }*/
 
         // Set the static camera refrence
         camera = this;
     }
+
     public const float speed = 1_000_000f;
 
     public Matrix4x4 GetProjectionMatrix()

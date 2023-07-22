@@ -83,7 +83,7 @@ public static class MeshLoader
 
 
         }
-        return new(verticies.ToArray(), indicies.ToArray());
+        return new Mesh(verticies.ToArray(), indicies.ToArray(), path);
     }
 
     private static string[] ReadFile(string path)
