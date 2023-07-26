@@ -1,66 +1,82 @@
-﻿using System.Numerics;
-using GameEngine.ECS;
+﻿using GameEngine.ECS;
 using GameEngine;
 using GameEngine.ECS.Components;
 using GameEngine.Rendering;
 
 var scene = new Scene();
-var app = new Application("My Game", new Vector2(800, 800));
-Shader shaders = Shader.LoadShader(@"C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\shaders\vertex.vert", @"C:\Users\Mulca\Desktop\VITAN\C#\GameEngine\Sandbox\shaders\fragment.frag");
-app.SetShader(shaders);
+var app = new Application("Sandbox", new Vector2(800, 800));
 
+// Load the shaders
+Shader shader = Shader.LoadShader("shaders/vertex.vert", "shaders/fragment.frag");
+app.SetShader(shader);
+
+#region Camera
 // Create a camera
 var cam = new GameObject("Camera", true);
 cam.AddComponent<Camera>();
-cam.GetComponent<Camera>().FOV = 90f;
+cam.GetComponent<Camera>().FOV = 60f;
+// Add the custom CameraController class
+cam.AddComponent<CameraController>();
+// Set the camera's position
 cam.transform.position = new(0, 0f, -3f);
+#endregion
 
+#region Cube
+// Load the sphere mesh
+Mesh mesh = MeshLoader.Load("models/Sphere.model");
+mesh.FlipNormals();
+GameObject sphere = new("Cube");
+sphere.transform.scale = Vector3.One;
+// Add the custom Rotator class
+sphere.AddComponent<Rotator>().Speed = 50_000_000f;
+// Add and store the MeshRenderer
+MeshRenderer rend = sphere.AddComponent<MeshRenderer>();
+// Set the mesh to render
+rend.SetMesh(mesh);
+// Set the color
+rend.SetColor(Color.White);
+#endregion
+
+#region Lights
+
+var light = new GameObject("Light");
+light.AddComponent<Light>().Color = Color.Red;
+light.GetComponent<Light>().Intensity = .8f;
+light.transform.position = new(2, 0, 0f);
+light.transform.scale = new(.4f);
+
+
+var light2 = new GameObject("Light2");
+light2.AddComponent<Light>().Color = Color.Blue;
+light2.GetComponent<Light>().Intensity = .8f;
+light2.transform.position = new(-2, 0f, 0f);
+light2.transform.scale = new(.4f);
+
+var light3 = new GameObject("Light3");
+light3.AddComponent<Light>().Color = Color.Green;
+light3.GetComponent<Light>().Intensity = .8f;
+light3.transform.position = new(0, 2f, 0f);
+light3.transform.scale = new(.4f);
+
+var light4 = new GameObject("Light4");
+light4.AddComponent<Light>().Color = Color.White;
+light4.GetComponent<Light>().Intensity = .2f;
+light4.transform.position = new(0, -2f, 0f);
+light4.transform.scale = new(0.4f);
+
+#endregion
+
+// Add the objects to scene
 scene.AddObject(cam);
 
-float[] verts =
-{
-    //     -Positions             -Colors
-    /* 0 */ -0.5f, -0.5f,  0.5f,  .2f, .2f, .2f,
-    /* 1 */ 0.5f, -0.5f,  0.5f,   .3f, .3f, .3f,
-    /* 2 */ -0.5f,  0.5f,  0.5f,  .4f, .4f, .4f,
-    /* 3 */ 0.5f,  0.5f,  0.5f,   .2f, .2f, .2f,
-    /* 4 */ -0.5f, -0.5f, -0.5f,  .3f, .3f, .3f,
-    /* 5 */ 0.5f, -0.5f, -0.5f,   .4f, .4f, .4f,
-    /* 6 */ -0.5f,  0.5f, -0.5f,  .3f, .3f, .3f,
-    /* 7 */ 0.5f,  0.5f, -0.5f,   .2f, .2f, .2f,
-};
-uint[] indic =
-{
-    // Back face
-    0, 1, 2,
-    3, 1, 2,
-    // Right face
-    0, 2, 4,
-    2, 6, 4,
-    // Front face
-    6, 4, 5,
-    5, 6, 7,
-    // Left face
-    7, 5, 1,
-    7, 3, 1,
-    // Top face
-    2, 3, 6,
-    6, 7, 3,
-    // Bottom face
-    0, 1, 4,
-    4, 5, 1
-};
+scene.AddObject(light);
+scene.AddObject(light2);
+scene.AddObject(light3);
+scene.AddObject(light4);
 
-GameObject cube = new("Cube");
-cube.transform.position = new(0f, 0f, 0);
-cube.transform.rotation = new(0);
-MeshRenderer rend = cube.AddComponent<MeshRenderer>();
-rend.SetMesh(new(verts, indic));
-
-rend.SetColor(new(40, 40, 40));
+scene.AddObject(sphere);
 
 
-scene.AddObject(cube);
-
+// Start the app
 app.SetScene(scene);
 app.Run();

@@ -105,11 +105,11 @@ namespace GameEngine.OpenGL
         ///     Define the scissor box.
         /// </summary>
         /// <param name="x">
-        ///     Specify the lower left corner of the scissor box on the x-axis
+        ///     Specify the lower left corner of the scissor box on the X-axis
         ///     <para>Initially <c>0</c>.</para>
         /// </param>
         /// <param name="y">
-        ///     Specify the lower left corner of the scissor box on the y-axis
+        ///     Specify the lower left corner of the scissor box on the Y-axis
         ///     <para>Initially <c>0</c>.</para>
         /// </param>
         /// <param name="width">Specify the width of the scissor box.</param>
@@ -247,8 +247,8 @@ namespace GameEngine.OpenGL
         /// <summary>
         ///     Set the viewport.
         /// </summary>
-        /// <param name="x">The lower left corner of the viewport rectangle on the x-axis, in pixels.</param>
-        /// <param name="y">The lower left corner of the viewport rectangle on the y-axis, in pixels.</param>
+        /// <param name="x">The lower left corner of the viewport rectangle on the X-axis, in pixels.</param>
+        /// <param name="y">The lower left corner of the viewport rectangle on the Y-axis, in pixels.</param>
         /// <param name="width">The width of the viewport, in pixels.</param>
         /// <param name="height">The height of the viewport.</param>
         public static void glViewport(int x, int y, int width, int height) => _glViewport(x, y, width, height);
@@ -611,8 +611,8 @@ namespace GameEngine.OpenGL
         /// <summary>
         ///     Read a block of pixels from the frame buffer.
         /// </summary>
-        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the x-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
-        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the X-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the Y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
         /// <param name="width">Specify the width of the pixel rectangle, in pixels.</param>
         /// <param name="height">Specify the height of the pixel rectangle, in pixels.</param>
         /// <param name="format">Specifies the format of the pixel data.<para>The following symbolic values are accepted: GL_STENCIL_INDEX, GL_DEPTH_COMPONENT, GL_DEPTH_STENCIL, GL_RED, GL_GREEN, GL_BLUE, GL_RGB, GL_BGR, GL_RGBA, and GL_BGRA.</para></param>
@@ -623,8 +623,8 @@ namespace GameEngine.OpenGL
         /// <summary>
         ///     Read a block of pixels from the frame buffer.
         /// </summary>
-        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the x-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
-        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the X-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the Y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
         /// <param name="width">Specify the width of the pixel rectangle, in pixels.</param>
         /// <param name="height">Specify the height of the pixel rectangle, in pixels.</param>
         /// <param name="format">Specifies the format of the pixel data.</param>
@@ -635,8 +635,8 @@ namespace GameEngine.OpenGL
         /// <summary>
         ///     Read a block of pixels from the frame buffer.
         /// </summary>
-        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the x-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
-        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="x">Specify the window coordinates of the first pixel that is read from the frame buffer on the X-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
+        /// <param name="y">Specify the window coordinates of the first pixel that is read from the frame buffer on the Y-axis.<para>This location is the lower left corner of a rectangular block of pixels.</para></param>
         /// <param name="width">Specify the width of the pixel rectangle, in pixels.</param>
         /// <param name="height">Specify the height of the pixel rectangle, in pixels.</param>
         /// <param name="format">Specifies the format of the pixel data.</param>
@@ -1638,14 +1638,14 @@ namespace GameEngine.OpenGL
         ///     Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="x">
-        ///     Specify the window coordinates of the lower left corner on the x-axis of the rectangular region of
+        ///     Specify the window coordinates of the lower left corner on the X-axis of the rectangular region of
         ///     pixels to be copied.
         /// </param>
         /// <param name="y">
-        ///     Specify the window coordinates of the lower left corner on the y-axis of the rectangular region of
+        ///     Specify the window coordinates of the lower left corner on the Y-axis of the rectangular region of
         ///     pixels to be copied.
         /// </param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
@@ -1659,7 +1659,7 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the pixel data.
         ///     <para>Must be GL_RED, GL_RG, GL_RGB, GL_BGR, GL_RGBA, GL_DEPTH_COMPONENT, or GL_STENCIL_INDEX.</para>
@@ -1675,8 +1675,8 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the pixel data.
@@ -1695,9 +1695,9 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
-        /// <param name="zOffset">Specifies a texel offset in the z direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
+        /// <param name="zOffset">Specifies a texel offset in the Z direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="depth">Specifies the depth of the texture sub-image.</param>
@@ -1717,7 +1717,7 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the pixel data.
         ///     <para>Must be GL_RED, GL_RG, GL_RGB, GL_BGR, GL_RGBA, GL_DEPTH_COMPONENT, or GL_STENCIL_INDEX.</para>
@@ -1733,8 +1733,8 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the pixel data.
@@ -1753,9 +1753,9 @@ namespace GameEngine.OpenGL
         /// <param name="level">Specifies the level-of-detail number.
         ///     <para>Level 0 is the base image level. Level n is the nth mipmap reduction image.</para>
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
-        /// <param name="zOffset">Specifies a texel offset in the z direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
+        /// <param name="zOffset">Specifies a texel offset in the Z direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="depth">Specifies the depth of the texture sub-image.</param>
@@ -1886,9 +1886,9 @@ namespace GameEngine.OpenGL
         ///     Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap
         ///     reduction image.
         /// </param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
-        /// <param name="zOffset">Specifies a texel offset in the z direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
+        /// <param name="zOffset">Specifies a texel offset in the Z direction within the texture array.</param>
         /// <param name="x">
         ///     Specify the window coordinates of the lower left corner of the rectangular region of pixels to be
         ///     copied.
@@ -1984,9 +1984,9 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target to which the texture is bound.<para>Must be GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D, or GL_TEXTURE_CUBE_MAP_ARRAY.</para></param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
-        /// <param name="zOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
+        /// <param name="zOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="depth">Specifies the depth of the texture sub-image.</param>
@@ -2000,8 +2000,8 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target to which the texture is bound.</param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the compressed image data stored at address <paramref name="data"/>.</param>
@@ -2014,7 +2014,7 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target texture.<para>Must be GL_TEXTURE_1D or GL_PROXY_TEXTURE_1D.</para></param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the compressed image data stored at address <paramref name="data"/>.</param>
         /// <param name="imageSize">Specifies the number of unsigned bytes of image data starting at the address specified by <paramref name="data"/>.</param>
@@ -2026,9 +2026,9 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target to which the texture is bound.<para>Must be GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D, or GL_TEXTURE_CUBE_MAP_ARRAY.</para></param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
-        /// <param name="zOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
+        /// <param name="zOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="depth">Specifies the depth of the texture sub-image.</param>
@@ -2042,8 +2042,8 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target to which the texture is bound.</param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
-        /// <param name="yOffset">Specifies a texel offset in the y direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
+        /// <param name="yOffset">Specifies a texel offset in the Y direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="height">Specifies the height of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the compressed image data stored at address <paramref name="data"/>.</param>
@@ -2056,7 +2056,7 @@ namespace GameEngine.OpenGL
         /// </summary>
         /// <param name="target">Specifies the target texture.<para>Must be GL_TEXTURE_1D or GL_PROXY_TEXTURE_1D.</para></param>
         /// <param name="level">Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.</param>
-        /// <param name="xOffset">Specifies a texel offset in the x direction within the texture array.</param>
+        /// <param name="xOffset">Specifies a texel offset in the X direction within the texture array.</param>
         /// <param name="width">Specifies the width of the texture sub-image.</param>
         /// <param name="format">Specifies the format of the compressed image data stored at address <paramref name="data"/>.</param>
         /// <param name="imageSize">Specifies the number of unsigned bytes of image data starting at the address specified by <paramref name="data"/>.</param>
@@ -2415,7 +2415,7 @@ namespace GameEngine.OpenGL
         /// <param name="texTarget">Specifies what type of texture is expected in the texture parameter, or for cube map textures, which face is to be attached.</param>
         /// <param name="texture">Specifies the name of an existing texture object to attach.</param>
         /// <param name="level">Specifies the mipmap level of the texture object to attach.</param>
-        /// <param name="zOffset">The offset on the z-axis.</param>
+        /// <param name="zOffset">The offset on the Z-axis.</param>
         public static void glFramebufferTexture3D(int target, int attachment, int texTarget, uint texture, int level, int zOffset) => _glFramebufferTexture3D(target, attachment, texTarget, texture, level, zOffset);
 
         /// <summary>
@@ -3052,14 +3052,14 @@ namespace GameEngine.OpenGL
         /// <summary>
         ///     Copy a block of pixels from one framebuffer object to another.
         /// </summary>
-        /// <param name="srcX0">The lower left corner of the read buffer on the x-axis.</param>
-        /// <param name="srcY0">The lower left corner of the read buffer on the y-axis.</param>
-        /// <param name="srcX1">The upper right corner of the read buffer on the x-axis.</param>
-        /// <param name="srcY1">The upper right corner of the read buffer on the y-axis.</param>
-        /// <param name="dstX0">The lower left corner of the write buffer on the x-axis.</param>
-        /// <param name="dstY0">The lower left corner of the write buffer on the y-axis.</param>
-        /// <param name="dstX1">The upper right corner of the write buffer on the x-axis.</param>
-        /// <param name="dstY1">The upper right corner of the write buffer on the y-axis.</param>
+        /// <param name="srcX0">The lower left corner of the read buffer on the X-axis.</param>
+        /// <param name="srcY0">The lower left corner of the read buffer on the Y-axis.</param>
+        /// <param name="srcX1">The upper right corner of the read buffer on the X-axis.</param>
+        /// <param name="srcY1">The upper right corner of the read buffer on the Y-axis.</param>
+        /// <param name="dstX0">The lower left corner of the write buffer on the X-axis.</param>
+        /// <param name="dstY0">The lower left corner of the write buffer on the Y-axis.</param>
+        /// <param name="dstX1">The upper right corner of the write buffer on the X-axis.</param>
+        /// <param name="dstY1">The upper right corner of the write buffer on the Y-axis.</param>
         /// <param name="mask">The bitwise OR of the flags indicating which buffers are to be copied.<para>The allowed flags are GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT and GL_STENCIL_BUFFER_BIT.</para></param>
         /// <param name="filter">Specifies the interpolation to be applied if the image is stretched.<para>Must be GL_NEAREST or GL_LINEAR.</para></param>
         public static void glBlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, uint mask, int filter) => _glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);

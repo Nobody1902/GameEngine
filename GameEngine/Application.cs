@@ -1,7 +1,6 @@
 ﻿using GameEngine.ECS;
 using GameEngine.Rendering;
 using GLFW;
-using static GameEngine.OpenGL.GL;
 
 using Window = GameEngine.Rendering.Window;
 
@@ -23,8 +22,37 @@ public sealed class Application
         _title = title;
         _size = size;
 
+        string vertex = "#version 330 core" + "\n" +
+            "layout(location = 0) in vec3 aPosition;" + "\n" +
+            "layout(location = 1) in vec3 aNormal;" + "\n" +
+            "uniform mat4 u_proj;" + "\n" +
+            "uniform mat4 u_model;" + "\n" +
 
-        _window = new Window(_title, _size);
+            "out vec3 oNormal;" + "\n" +
+
+            "void main()" + "\n" +
+            "{" + "\n" +
+                "oNormal = aNormal;" + "\n" +
+                "gl_Position = u_proj * u_model * vec4(aPosition, 1.0);" + "\n" +
+            "}";
+
+        string fragment = "#version 330 core" + "\n" +
+
+            "uniform vec4 u_color;" + "\n" +
+
+            "in vec3 oNormal;" + "\n" +
+
+            "out vec4 FragColor;" + "\n" +
+
+            "void main()" + "\n" +
+            "{" + "\n" +
+                "FragColor = vec4(abs(oNormal), 1.0);" + "\n" +
+            "}";
+
+        File.WriteAllText("shaders/default.vert", vertex);
+        File.WriteAllText("shaders/default.frag", fragment);
+
+        _window = new Window(_title, _size, 8);
 
         _scene = Scene.Empty;
 
@@ -52,17 +80,35 @@ public sealed class Application
         Glfw.SetMouseButtonCallback(_window._window, Input._mouseButtonCallback);
         Glfw.SetCursorPositionCallback(_window._window, Input._mouseCallback);
 
+        Logger.Log("Loading...");
+
         _renderer.OnLoad();
         Input.OnLoad();
 
-
-
+        Logger.Log("Starting...");
         // Reset Time
         Glfw.Time = 0;
         double lastTime = Glfw.Time;
+        double prevTime = 0.0;
+        double currentTime = 0.0;
+        double timeDiffrance = 0.0;
+        uint counter = 0;
 
         while (!_window.ShouldClose())
         {
+            currentTime = Glfw.Time;
+
+            timeDiffrance = currentTime - prevTime;
+            counter++;
+            if(timeDiffrance >= 1f / 30f)
+            {
+                double FPS = (1f / timeDiffrance) * counter;
+                float fps = MathF.Round((float)FPS, 2);
+                Time._SetFPS(fps);
+
+                prevTime = currentTime;
+                counter = 0;
+            }
             Time._SetDeltaTime(DeltaTime);
 
             Update();
@@ -74,7 +120,6 @@ public sealed class Application
             DeltaTime = (float)(Glfw.Time - lastTime) / 1000000.0f;
             lastTime = Glfw.Time;
         }
-        _window.CloseWindow();
         // No need to call CloseWindow as it should happen automatically
     }
 

@@ -1,20 +1,24 @@
-﻿namespace GameEngine.ECS;
+﻿using Newtonsoft.Json;
+
+namespace GameEngine.ECS;
 
 public class GameObject
 {
     public string name { get; private set; }
-    public Guid uuid { get; init; } 
+    public Guid uuid { get; init; }
     public bool enabled { get; private set; }
-    public bool _destroyed = false;
+
+    [JsonIgnore]
+    public bool _destroyed { get; private set; } = false;
 
     public event EventHandler? startEvent;
     public event EventHandler? enableEvent;
     public event EventHandler? disableEvent;
     public event EventHandler? destroyEvent;
 
-    public Transform transform { get; init; }
-
-    private HashSet<Component> _components { get; init; }
+    [JsonIgnore]
+    public Transform transform { get; private set; }
+    public HashSet<Component> _components { get; private set; }
 
     public GameObject(string name)
     {
@@ -35,6 +39,27 @@ public class GameObject
 
         transform = AddComponent<Transform>();
     }
+    public GameObject(string name, Guid uuid)
+    {
+        this.name = name;
+        this.uuid = uuid;
+        this.enabled = true;
+
+        _components = new();
+
+        transform = AddComponent<Transform>();
+    }
+    public GameObject(string name, Guid uuid, bool enabled)
+    {
+        this.name = name;
+        this.uuid = uuid;
+        this.enabled = enabled;
+
+        _components = new();
+
+        transform = AddComponent<Transform>();
+    }
+
 
     public override bool Equals(object? obj)
     {
@@ -71,17 +96,31 @@ public class GameObject
 
     public T AddComponent<T>() where T : Component
     {
+        if(HasComponent<T>())
+        {
+            return GetComponent<T>();
+        }
         T component = (T)Activator.CreateInstance(typeof(T), new object[] { this }) ?? throw new Exception("Error adding component.");
-        _components.Add(component);
+        bool added = _components.Add(component);
+        if(added == false)
+        {
+            throw new Exception($"{name} already has {typeof(T).Name}");
+        }
         return component;
     }
     public T GetComponent<T>() where T : Component
     {
+        if(_components == null)
+        {
+            _components = new();
+            transform = AddComponent<Transform>();
+        }
+
         foreach (Component component in _components)
         {
-            if (component is T)
+            if (component is T comp)
             {
-                return (T)component;
+                return comp;
             }
         }
         throw new Exception($"{name} has no component {typeof(T).Name}");
@@ -111,10 +150,34 @@ public class GameObject
             OnDisable();
         }
     }
+    public void SetName(string name)
+    {
+        this.name = name;
+    }
     public void Destroy()
     {
         _destroyed = true;
-        OnDestroy();
 
+        OnDestroy();
+    }
+    public override string ToString()
+    {
+        string str = $$"""GameObject({{name}}:{{enabled}}){ """;
+        return str + _components.ToString() + "}";
+    }
+
+    public static GameObject FindUUID(Guid uuid)
+    {
+
+
+        foreach(GameObject obj in Scene.Current.gameObjects)
+        {
+            if(obj.uuid == uuid)
+            {
+                return obj;
+            }
+        }
+
+        return null;
     }
 }

@@ -262,7 +262,7 @@ namespace JetBrains.Annotations
   ///             <c>NotifyChanged(() =&gt; Property)</c>
   ///         </item>
   ///         <item>
-  ///             <c>NotifyChanged((VM x) =&gt; x.Property)</c>
+  ///             <c>NotifyChanged((VM X) =&gt; X.Property)</c>
   ///         </item>
   ///         <item>
   ///             <c>SetProperty(ref myField, value, "Property")</c>
@@ -584,7 +584,7 @@ namespace JetBrains.Annotations
   /// </summary>
   /// <example>
   ///     <code>
-  /// [Pure] int Multiply(int x, int y) => x * y;
+  /// [Pure] int Multiply(int X, int Y) => X * Y;
   /// 
   /// void M() {
   ///   Multiply(123, 42); // Waring: Return value of pure method is not used
@@ -683,7 +683,7 @@ namespace JetBrains.Annotations
   ///     <code>
   /// [SourceTemplate]
   /// public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; xs) {
-  ///   foreach (var x in xs) {
+  ///   foreach (var X in xs) {
   ///      //$ $END$
   ///   }
   /// }
@@ -716,9 +716,9 @@ namespace JetBrains.Annotations
       ///     Applying the attribute on a template method parameter:
       ///     <code>
       /// [SourceTemplate]
-      /// public static void something(this Entity x, [Macro(Expression = "guid()", Editable = -1)] string newguid) {
-      ///   /*$ var $x$Id = "$newguid$" + x.ToString();
-      ///   x.DoSomething($x$Id); */
+      /// public static void something(this Entity X, [Macro(Expression = "guid()", Editable = -1)] string newguid) {
+      ///   /*$ var $X$Id = "$newguid$" + X.ToString();
+      ///   X.DoSomething($X$Id); */
       /// }
       /// </code>
       /// </example>
@@ -1063,7 +1063,7 @@ namespace JetBrains.Annotations
     ///   {
     ///     // Warning: Contents of the collection is never updated
     ///     var col = new MyStringCollection();
-    ///     string x = col.GetFirstString();
+    ///     string X = col.GetFirstString();
     ///   }
     /// }
     /// </code>
@@ -1178,7 +1178,7 @@ namespace JetBrains.Annotations
     /// void Foo(IEnumerable&lt;string&gt; values)
     /// {
     ///   ThrowIfNull(values, nameof(values));
-    ///   var x = values.ToList(); // No warnings about multiple enumeration
+    ///   var X = values.ToList(); // No warnings about multiple enumeration
     /// }
     /// </code>
     /// </example>

@@ -9,15 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="GameEngine.Vector2">
+      <Alias>Vector2</Alias>
+    </Using>
+    <Using Include="GameEngine.Vector3">
+      <Alias>Vector3</Alias>
+    </Using>
+    <Using Include="System.Numerics" />
     <Using Include="System.Numerics" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="shaders\default.frag">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="shaders\default.vert">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

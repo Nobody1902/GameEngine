@@ -41,8 +41,8 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="ContentScaleChanged" /> event.
         /// </summary>
-        /// <param name="xScale">The new scale on the x-axis.</param>
-        /// <param name="yScale">The new scale on the y-axis.</param>
+        /// <param name="xScale">The new scale on the X-axis.</param>
+        /// <param name="yScale">The new scale on the Y-axis.</param>
         protected virtual void OnContentScaleChanged(float xScale, float yScale)
         {
             ContentScaleChanged?.Invoke(this, new ContentScaleEventArgs(xScale, yScale));
@@ -710,8 +710,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="monitor">The desired monitor, or <see cref="GLFW.Monitor.None" /> to set windowed mode.</param>
-        /// <param name="x">The desired x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The desired y-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="x">The desired X-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="y">The desired Y-coordinate of the upper-left corner of the client area.</param>
         /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
         /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
         /// <param name="refreshRate">The desired refresh rate, in Hz, of the video mode, or <see cref="Constants.Default" />.</param>
@@ -1050,8 +1050,8 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="MouseMoved" /> event.
         /// </summary>
-        /// <param name="x">The new x-coordinate of the mouse.</param>
-        /// <param name="y">The new y-coordinate of the mouse.</param>
+        /// <param name="x">The new X-coordinate of the mouse.</param>
+        /// <param name="y">The new Y-coordinate of the mouse.</param>
         protected virtual void OnMouseMove(double x, double y)
         {
             MouseMoved?.Invoke(this, new MouseMoveEventArgs(x, y));
@@ -1060,8 +1060,8 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="MouseScroll" /> event.
         /// </summary>
-        /// <param name="x">The amount of the scroll on the x-axis.</param>
-        /// <param name="y">The amount of the scroll on the y-axis.</param>
+        /// <param name="x">The amount of the scroll on the X-axis.</param>
+        /// <param name="y">The amount of the scroll on the Y-axis.</param>
         protected virtual void OnMouseScroll(double x, double y)
         {
             MouseScroll?.Invoke(this, new MouseMoveEventArgs(x, y));
@@ -1070,8 +1070,8 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="PositionChanged" /> event.
         /// </summary>
-        /// <param name="x">The new position on the x-axis.</param>
-        /// <param name="y">The new position on the y-axis.</param>
+        /// <param name="x">The new position on the X-axis.</param>
+        /// <param name="y">The new position on the Y-axis.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Global")]
         protected virtual void OnPositionChanged(double x, double y)
         {

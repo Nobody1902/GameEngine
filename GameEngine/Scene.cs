@@ -1,7 +1,6 @@
-﻿
-
-using GameEngine.ECS;
+﻿using GameEngine.ECS;
 using GameEngine.ECS.Components;
+using Newtonsoft.Json;
 
 namespace GameEngine;
 
@@ -13,10 +12,14 @@ public sealed class Scene
 
     public Camera Camera { get; private set; }
 
+    public static Scene Current { get; private set; }
+
     public Scene()
     {
-        gameObjects = new HashSet<GameObject>();
+        gameObjects = new();
+        Current = this;
     }
+
     public void RemoveObject(GameObject obj)
     {
         gameObjects.Remove(obj);
@@ -28,5 +31,9 @@ public sealed class Scene
             Camera = obj.GetComponent<Camera>();
         }
         gameObjects.Add(obj);
+    }
+    public override string ToString()
+    {
+        return $$"""Scene(){{{gameObjects}}}""";
     }
 }

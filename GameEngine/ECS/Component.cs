@@ -1,9 +1,15 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace GameEngine.ECS;
 
 public class Component
 {
+
+    [JsonIgnore]
     public GameObject gameObject { get; init; }
+
+    [JsonIgnore]
+    public Transform transform { get { return gameObject.transform; } }
 
     public Component(GameObject gameObject)
     {
@@ -43,5 +49,4 @@ public class Component
     public virtual void OnDestroy() { }
     public virtual void OnEnable() { }
     public virtual void OnDisable() { }
-
 }

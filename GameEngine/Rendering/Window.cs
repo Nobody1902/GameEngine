@@ -14,16 +14,25 @@ public sealed class Window : IDisposable
 
     public static Window window;
 
-    public Window(string title, Vector2 size)
+    public int samples = 8;
+
+    public Window(string title, Vector2 size, int samples = 8)
     {
         _title = title;
         _size = size;
 
+
+        Logger.Log("Creating window...");
         if (CreateWindow() == 1)
         {
-            throw new System.Exception("Couldn't create GLFW window.");
+            Logger.Error("Couldn't create GLFW window.");
         }
         window = this;
+        this.samples = samples;
+        if(this.samples > 8)
+        {
+            Logger.Warning("The sample count might effect performance.");
+        }
     }
 
     public void Dispose()
@@ -38,6 +47,7 @@ public sealed class Window : IDisposable
         // Setting up the window
         Glfw.WindowHint(Hint.ContextVersionMajor, 3);
         Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+        Glfw.WindowHint(Hint.Samples, samples);
         Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
 
         Glfw.WindowHint(Hint.Doublebuffer, true);
@@ -70,7 +80,7 @@ public sealed class Window : IDisposable
 
         glViewport(0, 0, (int)_size.X, (int)_size.X); // Setup the opengl viewport
 
-        Glfw.SwapInterval(0); // Turn on VSync
+        Glfw.SwapInterval(1); // Turn on VSync
 
         return 0;
     }
@@ -88,6 +98,10 @@ public sealed class Window : IDisposable
     public void PollEvents()
     {
         Glfw.PollEvents();
+    }
+    public void SetTitle(string title)
+    {
+        Glfw.SetWindowTitle(_window, title);
     }
 
     public void Show()

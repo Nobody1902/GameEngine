@@ -71,8 +71,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="monitor">The monitor to query.</param>
-        /// <param name="xScale">The scale on the x-axis.</param>
-        /// <param name="yScale">The scale on the y-axis.</param>
+        /// <param name="xScale">The scale on the X-axis.</param>
+        /// <param name="yScale">The scale on the Y-axis.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetMonitorContentScale", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetMonitorContentScale(IntPtr monitor, out float xScale, out float yScale);
 
@@ -161,8 +161,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="window">The window to query.</param>
-        /// <param name="xScale">The content scale on the x-axis.</param>
-        /// <param name="yScale">The content scale on the y-axis.</param>
+        /// <param name="xScale">The content scale on the X-axis.</param>
+        /// <param name="yScale">The content scale on the Y-axis.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetWindowContentScale", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetWindowContentScale(IntPtr window, out float xScale, out float yScale);
 
@@ -553,8 +553,8 @@ namespace GLFW
         ///     specified window.
         /// </summary>
         /// <param name="window">A window instance.</param>
-        /// <param name="x">The x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The y-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="x">The X-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="y">The Y-coordinate of the upper-left corner of the client area.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetWindowPos", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetWindowPosition(Window window, out int x, out int y);
 
@@ -568,8 +568,8 @@ namespace GLFW
         ///     doing so, as it will confuse and annoy the user.
         /// </note>
         /// <param name="window">A window instance.</param>
-        /// <param name="x">The x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The y-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="x">The X-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="y">The Y-coordinate of the upper-left corner of the client area.</param>
         /// <remarks>
         ///     The window manager may put limits on what positions are allowed. GLFW cannot and should not override these
         ///     limits.
@@ -953,8 +953,8 @@ namespace GLFW
         /// </summary>
         /// <param name="window">A window instance.</param>
         /// <param name="monitor">The desired monitor, or <see cref="Monitor.None" /> to set windowed mode.</param>
-        /// <param name="x">The desired x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The desired y-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="x">The desired X-coordinate of the upper-left corner of the client area.</param>
+        /// <param name="y">The desired Y-coordinate of the upper-left corner of the client area.</param>
         /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
         /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
         /// <param name="refreshRate">The desired refresh rate, in Hz, of the video mode, or <see cref="Constants.Default" />.</param>
@@ -1029,8 +1029,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="image">The image.</param>
-        /// <param name="xHotspot">The x hotspot.</param>
-        /// <param name="yHotspot">The y hotspot.</param>
+        /// <param name="xHotspot">The X hotspot.</param>
+        /// <param name="yHotspot">The Y hotspot.</param>
         /// <returns>The created cursor.</returns>
         [DllImport(LIBRARY, EntryPoint = "glfwCreateCursor", CallingConvention = CallingConvention.Cdecl)]
         public static extern Cursor CreateCursor(Image image, int xHotspot, int yHotspot);
@@ -1073,8 +1073,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="window">A window instance.</param>
-        /// <param name="x">The cursor x-coordinate, relative to the left edge of the client area.</param>
-        /// <param name="y">The cursor y-coordinate, relative to the left edge of the client area.</param>
+        /// <param name="x">The cursor X-coordinate, relative to the left edge of the client area.</param>
+        /// <param name="y">The cursor Y-coordinate, relative to the left edge of the client area.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetCursorPos", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetCursorPosition(Window window, out double x, out double y);
 
@@ -1088,8 +1088,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="window">A window instance.</param>
-        /// <param name="x">The desired x-coordinate, relative to the left edge of the client area.</param>
-        /// <param name="y">The desired y-coordinate, relative to the left edge of the client area.</param>
+        /// <param name="x">The desired X-coordinate, relative to the left edge of the client area.</param>
+        /// <param name="y">The desired Y-coordinate, relative to the left edge of the client area.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwSetCursorPos", CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetCursorPosition(Window window, double x, double y);
 
@@ -1233,8 +1233,8 @@ namespace GLFW
         ///     Gets the position, in screen coordinates, of the upper-left corner of the specified monitor.
         /// </summary>
         /// <param name="monitor">The monitor to query.</param>
-        /// <param name="x">The monitor x-coordinate.</param>
-        /// <param name="y">The monitor y-coordinate.</param>
+        /// <param name="x">The monitor X-coordinate.</param>
+        /// <param name="y">The monitor Y-coordinate.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetMonitorPos", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetMonitorPosition(Monitor monitor, out int x, out int y);
 
@@ -1431,8 +1431,8 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <param name="monitor">The monitor to query.</param>
-        /// <param name="x">The x-coordinate.</param>
-        /// <param name="y">The y-coordinate.</param>
+        /// <param name="x">The X-coordinate.</param>
+        /// <param name="y">The Y-coordinate.</param>
         /// <param name="width">The monitor width.</param>
         /// <param name="height">The monitor height.</param>
         [DllImport(LIBRARY, EntryPoint = "glfwGetMonitorWorkarea", CallingConvention = CallingConvention.Cdecl)]
