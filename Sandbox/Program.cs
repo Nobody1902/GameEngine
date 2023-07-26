@@ -2,8 +2,6 @@
 using GameEngine;
 using GameEngine.ECS.Components;
 using GameEngine.Rendering;
-using System.Dynamic;
-using AutoMapper;
 
 var scene = new Scene();
 var app = new Application("Sandbox", new Vector2(800, 800));
