@@ -16,7 +16,7 @@ public sealed class Application
 
     private Shader _shader { get; set; }
 
-    public Application(string title, Vector2 size)
+    public Application(string title, Vector2 size, Color backGroundColor)
     {
         _title = title;
         _size = size;
@@ -56,7 +56,7 @@ public sealed class Application
         _scene = Scene.Empty;
 
         _shader = Shader.LoadShader("shaders/default.vert", "shaders/default.frag");
-        _renderer = new(_scene, _shader);
+        _renderer = new(_scene, _shader, backGroundColor);
     }
     public void SetShader(Shader shader)
     {
@@ -78,6 +78,7 @@ public sealed class Application
         Glfw.SetKeyCallback(Window._window, Input._keyCallback);
         Glfw.SetMouseButtonCallback(Window._window, Input._mouseButtonCallback);
         Glfw.SetCursorPositionCallback(Window._window, Input._mouseCallback);
+        Glfw.SetScrollCallback(Window._window, Input._mouseWheelCallback);
 
         Logger.Log("Loading...");
 
@@ -95,6 +96,13 @@ public sealed class Application
 
         while (!Window.ShouldClose())
         {
+            if (Input.KeyDown(Keys.Escape))
+            {
+                Window.CloseWindow();
+                Environment.Exit(0);
+                break;
+            }
+
             currentTime = Glfw.Time;
 
             timeDiffrance = currentTime - prevTime;

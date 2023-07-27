@@ -35,6 +35,11 @@ public sealed class Transform : Component
     }
     public override void Update()
     {
+        CalculateVectors();
+    }
+
+    private void CalculateVectors()
+    {
         var yaw = rotation.X;
         var pitch = rotation.Y;
         var roll = rotation.Z;
@@ -79,6 +84,6 @@ public sealed class Transform : Component
 
         Matrix4x4 scale = Matrix4x4.CreateScale(this.scale, pos);
 
-        return translation * rotation * scale;
+        return (translation * scale) * rotation;
     }
 }

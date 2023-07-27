@@ -11,10 +11,18 @@ internal sealed class Renderer
 
     private Shader _shaderProgram;
 
-    public Renderer(Scene scene, Shader defaultShader)
+    public Color BackgroundColor = Color.Gray.Normalize();
+
+    public Renderer(Scene scene, Shader defaultShader, Color? backGroundColor = null)
     {
         _scene = scene;
         _shaderProgram = defaultShader;
+
+        if (backGroundColor == null)
+        {
+            return;
+        }
+        BackgroundColor = ((Color)backGroundColor).Normalize();
     }
 
     public void SetScene(Scene scene)
@@ -32,7 +40,7 @@ internal sealed class Renderer
         glEnable(GL_CULL_FACE);
         glFrontFace(GL_CCW);
         glCullFace(GL_BACK);
-
+        
         // Enable the depth
         glEnable(GL_DEPTH_TEST);
 
@@ -42,7 +50,6 @@ internal sealed class Renderer
         // Create shaders
         _shaderProgram.Load();
     }
-    public Color BackgroundColor = Color.Gray.Normalize();
     public unsafe void Render()
     {
         glClearColor(BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);

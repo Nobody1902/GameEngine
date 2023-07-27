@@ -12,11 +12,11 @@ public class CameraController : Component
     {
         if (Input.KeyPressed(GLFW.Keys.W))
         {
-            gameObject.transform.position += new Vector3(0, 0, Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
+            gameObject.transform.position += new Vector3(0, Time.DeltaTime * speed, 0) * gameObject.transform.up.Normalized();
         }
         if (Input.KeyPressed(GLFW.Keys.S))
         {
-            gameObject.transform.position += new Vector3(0, 0, -Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
+            gameObject.transform.position += new Vector3(0, -Time.DeltaTime * speed, 0) * gameObject.transform.up.Normalized();
         }
         if (Input.KeyPressed(GLFW.Keys.D))
         {
@@ -25,6 +25,17 @@ public class CameraController : Component
         if (Input.KeyPressed(GLFW.Keys.A))
         {
             gameObject.transform.position += new Vector3(Time.DeltaTime * speed, 0, 0) * gameObject.transform.right.Normalized();
+        }
+
+        gameObject.transform.position += new Vector3(0, 0, Input.Scroll * 20 * Time.DeltaTime * speed) * gameObject.transform.forward.Normalized();
+
+        if (Input.KeyPressed(GLFW.Keys.Q))
+        {
+            gameObject.transform.rotation += new Vector3(Time.DeltaTime * speed, 0, 0);
+        }
+        if (Input.KeyPressed(GLFW.Keys.E))
+        {
+            gameObject.transform.rotation -= new Vector3(Time.DeltaTime * speed, 0, 0);
         }
     }
 }

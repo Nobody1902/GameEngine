@@ -4,7 +4,7 @@ using GameEngine.ECS.Components;
 using GameEngine.Rendering;
 
 var scene = new Scene();
-var app = new Application("Sandbox", new Vector2(800, 800));
+var app = new Application("Sandbox", new Vector2(800, 800), Color.Black);
 
 // Load the shaders
 Shader shader = Shader.LoadShader("shaders/vertex.vert", "shaders/fragment.frag");
@@ -18,14 +18,14 @@ cam.GetComponent<Camera>().FOV = 60f;
 // Add the custom CameraController class
 cam.AddComponent<CameraController>();
 // Set the camera's position
-cam.transform.position = new(0, 0f, -3f);
+cam.transform.position = new(0, 0f, -3);
 #endregion
 
 #region Cube
 // Load the sphere mesh
 Mesh mesh = MeshLoader.Load("models/Icosphere.model");
 GameObject sphere = new("Cube");
-sphere.transform.scale = Vector3.One;
+sphere.transform.scale = new(1, 1f, 1);
 // Add the custom Rotator class
 sphere.AddComponent<Rotator>().Speed = 50_000_000f;
 // Add and store the MeshRenderer
@@ -39,9 +39,9 @@ rend.SetColor(Color.White);
 #region Lights
 
 var light = new GameObject("Light");
-light.AddComponent<Light>().Color = Color.Red;
+light.AddComponent<Light>().Color = Color.White;
 light.GetComponent<Light>().Intensity = .8f;
-light.transform.position = new(2, 0, 0f);
+light.transform.position = new(0, 1, -2f);
 light.transform.scale = new(.4f);
 
 
@@ -69,10 +69,10 @@ light4.transform.scale = new(0.4f);
 scene.AddObject(cam);
 
 scene.AddObject(light);
-scene.AddObject(light2);
+/*scene.AddObject(light2);
 scene.AddObject(light3);
 scene.AddObject(light4);
-
+*/
 scene.AddObject(sphere);
 
 

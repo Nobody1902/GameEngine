@@ -54,7 +54,7 @@ void main()
         // Specular
         float specularLight = .5;
         vec3 reflectDir = reflect(-lightDir, normal);
-        float specAmount = pow(max(dot(u_viewDir, reflectDir), 0.0), 8);
+        float specAmount = pow(max(dot(u_viewDir, reflectDir), 0.0), 20);
         specular += specAmount * specularLight * u_light[i].intensity/2;
     }
 

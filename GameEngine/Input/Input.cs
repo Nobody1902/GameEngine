@@ -74,6 +74,8 @@ public class Input
     
     private static Vector2 _mousePosition;
     public static Vector2 MousePosition => _mousePosition = new();
+    private static float _scroll = 0;
+    public static float Scroll => _scroll;
 
     private static bool _mouseDown1;
     private static bool _mouseDown2;
@@ -97,7 +99,9 @@ public class Input
             KeysPressed[i].down = false;
             KeysPressed[i].up = false;
         }
+        _scroll = 0;
     }
+
     #region Callbacks
     internal static void _keyCallback(Window window, Keys key, int scanCode, InputState state, ModifierKeys mods)
     {
@@ -115,6 +119,10 @@ public class Input
             KeysPressed[i].up = true;
         }
         
+    }
+    internal static void _mouseWheelCallback(Window window, double x, double y)
+    {
+        _scroll = (float)y;
     }
     internal static void _mouseCallback(Window window, double x, double y)
     {
