@@ -11,7 +11,6 @@ public sealed class Application
     private string _title;
     private Vector2 _size;
 
-    private Window _window { get; init; }
     private Renderer _renderer { get; init; }
     private Scene _scene { get; set; }
 
@@ -52,12 +51,12 @@ public sealed class Application
         File.WriteAllText("shaders/default.vert", vertex);
         File.WriteAllText("shaders/default.frag", fragment);
 
-        _window = new Window(_title, _size, 8);
+        Window.Load(_title, _size);
 
         _scene = Scene.Empty;
 
         _shader = Shader.LoadShader("shaders/default.vert", "shaders/default.frag");
-        _renderer = new(_window, _scene, _shader);
+        _renderer = new(_scene, _shader);
     }
     public void SetShader(Shader shader)
     {
@@ -73,12 +72,12 @@ public sealed class Application
     public float DeltaTime { get; private set; }
     public void Run()
     {
-        _window.Show();
+        Window.Show();
 
         // Set the key callback function
-        Glfw.SetKeyCallback(_window._window, Input._keyCallback);
-        Glfw.SetMouseButtonCallback(_window._window, Input._mouseButtonCallback);
-        Glfw.SetCursorPositionCallback(_window._window, Input._mouseCallback);
+        Glfw.SetKeyCallback(Window._window, Input._keyCallback);
+        Glfw.SetMouseButtonCallback(Window._window, Input._mouseButtonCallback);
+        Glfw.SetCursorPositionCallback(Window._window, Input._mouseCallback);
 
         Logger.Log("Loading...");
 
@@ -94,7 +93,7 @@ public sealed class Application
         double timeDiffrance = 0.0;
         uint counter = 0;
 
-        while (!_window.ShouldClose())
+        while (!Window.ShouldClose())
         {
             currentTime = Glfw.Time;
 
@@ -111,16 +110,20 @@ public sealed class Application
             }
             Time._SetDeltaTime(DeltaTime);
 
+            Logger.Log($"{Time.FPS} FPS");
+            Logger.ClearLine();
+
             Update();
 
-            _window.PollEvents();
+            Window.PollEvents();
 
             Render();
 
             DeltaTime = (float)(Glfw.Time - lastTime) / 1000000.0f;
             lastTime = Glfw.Time;
         }
-        // No need to call CloseWindow as it should happen automatically
+
+        Window.CloseWindow();
     }
 
     private void Update()

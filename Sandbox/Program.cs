@@ -23,8 +23,7 @@ cam.transform.position = new(0, 0f, -3f);
 
 #region Cube
 // Load the sphere mesh
-Mesh mesh = MeshLoader.Load("models/Sphere.model");
-mesh.FlipNormals();
+Mesh mesh = MeshLoader.Load("models/Icosphere.model");
 GameObject sphere = new("Cube");
 sphere.transform.scale = Vector3.One;
 // Add the custom Rotator class

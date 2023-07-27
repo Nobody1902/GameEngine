@@ -180,7 +180,7 @@ namespace GLFW
 	    Stereo = 0x0002100c,
 
 	    /// <summary>
-	    ///     Specifies the desired number of samples to use for multisampling.Zero disables multisampling.
+	    ///     Specifies the desired number of _samples to use for multisampling.Zero disables multisampling.
 	    ///     <para><see cref="Constants.Default" /> means the application has no preference.</para>
 	    ///     <para>Default Value: <c>0</c></para>
 	    ///     <para>Possible Values: <c>0</c> to <see cref="int.MaxValue" /> or <see cref="Constants.Default" />.</para>

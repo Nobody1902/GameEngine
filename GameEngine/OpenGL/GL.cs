@@ -6417,26 +6417,26 @@ namespace GameEngine.OpenGL
 
 
         /// <summary>
-        /// Establish the data storage, format, dimensions, and number of samples of a multisample texture's image
+        /// Establish the data storage, format, dimensions, and number of _samples of a multisample texture's image
         /// </summary>
         /// <param name="target">Specifies the target of the operation.<para>Must be GL_TEXTURE_2D_MULTISAMPLE or GL_PROXY_TEXTURE_2D_MULTISAMPLE.</para></param>
-        /// <param name="samples">The number of samples in the multisample texture's image.</param>
+        /// <param name="samples">The number of _samples in the multisample texture's image.</param>
         /// <param name="internalformat">The internal format to be used to store the multisample texture's image.<para>Must specify a color-renderable, depth-renderable, or stencil-renderable format.</para></param>
         /// <param name="width">The width of the multisample texture's image, in texels.</param>
         /// <param name="height">The height of the multisample texture's image, in texels.</param>
-        /// <param name="fixedsamplelocations">Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.</param>
+        /// <param name="fixedsamplelocations">Specifies whether the image will use identical sample locations and the same number of _samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.</param>
         public static void glTexImage2DMultisample(int target, int samples, int internalformat, int width, int height, bool fixedsamplelocations) => _glTexImage2DMultisample(target, samples, internalformat, width, height, fixedsamplelocations);
 
         /// <summary>
-        /// Establish the data storage, format, dimensions, and number of samples of a multisample texture's image
+        /// Establish the data storage, format, dimensions, and number of _samples of a multisample texture's image
         /// </summary>
         /// <param name="target">Specifies the target of the operation.<para>Must be GL_TEXTURE_2D_MULTISAMPLE_ARRAY or GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY.</para></param>
-        /// <param name="samples">The number of samples in the multisample texture's image.</param>
+        /// <param name="samples">The number of _samples in the multisample texture's image.</param>
         /// <param name="internalformat">The internal format to be used to store the multisample texture's image.<para>Must specify a color-renderable, depth-renderable, or stencil-renderable format.</para></param>
         /// <param name="width">The width of the multisample texture's image, in texels.</param>
         /// <param name="height">The height of the multisample texture's image, in texels.</param>
         /// <param name="depth">The depth of the multisample texture's image, in texels.</param>
-        /// <param name="fixedsamplelocations">Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.</param>
+        /// <param name="fixedsamplelocations">Specifies whether the image will use identical sample locations and the same number of _samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.</param>
         public static void glTexImage3DMultisample(int target, int samples, int internalformat, int width, int height, int depth, bool fixedsamplelocations) => _glTexImage3DMultisample(target, samples, internalformat, width, height, depth, fixedsamplelocations);
 
         /// <summary>
@@ -6703,7 +6703,7 @@ namespace GameEngine.OpenGL
         /// Establish data storage, format, dimensions and sample count of a renderbuffer object's image.
         /// </summary>
         /// <param name="target">Specifies a binding target of the allocation.<para>Must be GL_RENDERBUFFER.</para></param>
-        /// <param name="samples">Specifies the number of samples to be used for the renderbuffer object's storage.</param>
+        /// <param name="samples">Specifies the number of _samples to be used for the renderbuffer object's storage.</param>
         /// <param name="internalformat">Specifies the internal format to use for the renderbuffer object's image.</param>
         /// <param name="width">Specifies the width of the renderbuffer, in pixels.</param>
         /// <param name="height">Specifies the height of the renderbuffer, in pixels.</param>

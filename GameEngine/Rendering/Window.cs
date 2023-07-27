@@ -1,22 +1,19 @@
 ﻿using GLFW;
 using static GameEngine.OpenGL.GL;
-using System.Xml.Serialization;
 using System.Drawing;
 
 namespace GameEngine.Rendering;
 
-public sealed class Window : IDisposable
+internal static class Window
 {
-    public string _title { get; init; }
-    public Vector2 _size { get; init; }
+    public static string _title { get; private set; }
+    public static Vector2 _size { get; private set; }
 
-    public GLFW.Window _window;
+    public static GLFW.Window _window;
 
-    public static Window window;
+    public static int _samples = 8;
 
-    public int samples = 8;
-
-    public Window(string title, Vector2 size, int samples = 8)
+    public static void Load(string title, Vector2 size, int samples = 8)
     {
         _title = title;
         _size = size;
@@ -27,27 +24,21 @@ public sealed class Window : IDisposable
         {
             Logger.Error("Couldn't create GLFW window.");
         }
-        window = this;
-        this.samples = samples;
-        if(this.samples > 8)
+        _samples = samples;
+        if (_samples > 8)
         {
             Logger.Warning("The sample count might effect performance.");
         }
     }
 
-    public void Dispose()
-    {
-        CloseWindow();
-    }
-
-    private int CreateWindow()
+    private static int CreateWindow()
     {
         Glfw.Init();
 
         // Setting up the window
         Glfw.WindowHint(Hint.ContextVersionMajor, 3);
         Glfw.WindowHint(Hint.ContextVersionMinor, 3);
-        Glfw.WindowHint(Hint.Samples, samples);
+        Glfw.WindowHint(Hint.Samples, _samples);
         Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
 
         Glfw.WindowHint(Hint.Doublebuffer, true);
@@ -85,26 +76,26 @@ public sealed class Window : IDisposable
         return 0;
     }
 
-    public void CloseWindow()
+    public static void CloseWindow()
     {
         Glfw.Terminate();
     }
 
-    public bool ShouldClose()
+    public static bool ShouldClose()
     {
         return Glfw.WindowShouldClose(_window);
     }
 
-    public void PollEvents()
+    public static void PollEvents()
     {
         Glfw.PollEvents();
     }
-    public void SetTitle(string title)
+    public static void SetTitle(string title)
     {
         Glfw.SetWindowTitle(_window, title);
     }
 
-    public void Show()
+    public static void Show()
     {
         _window.Opacity = 1;
     }

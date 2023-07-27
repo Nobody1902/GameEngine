@@ -30,7 +30,7 @@ public sealed class Camera : Component
     {
         float FOV_radians = ((float)EngineMath.PI / 180) * FOV;
 
-        Matrix4x4 proj = Matrix4x4.CreatePerspectiveFieldOfView(FOV_radians, Window.window._size.X / Window.window._size.Y, nearClip, farClip);
+        Matrix4x4 proj = Matrix4x4.CreatePerspectiveFieldOfView(FOV_radians, Window._size.X / Window._size.Y, nearClip, farClip);
 
         return proj;
     }

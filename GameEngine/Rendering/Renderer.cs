@@ -5,16 +5,14 @@ using static GameEngine.OpenGL.GL;
 
 namespace GameEngine.Rendering;
 
-public sealed class Renderer
+internal sealed class Renderer
 {
     private Scene _scene;
-    private Window _window;
 
     private Shader _shaderProgram;
 
-    public Renderer(Window window, Scene scene, Shader defaultShader)
+    public Renderer(Scene scene, Shader defaultShader)
     {
-        _window = window;
         _scene = scene;
         _shaderProgram = defaultShader;
     }
@@ -22,10 +20,6 @@ public sealed class Renderer
     public void SetScene(Scene scene)
     {
         _scene = scene;
-    }
-    public void SetWindow(Window window)
-    {
-        _window = window;
     }
     public unsafe void SetShader(Shader shader)
     {
@@ -82,7 +76,7 @@ public sealed class Renderer
 
         }
 
-        Glfw.SwapBuffers(_window._window);
+        Glfw.SwapBuffers(Window._window);
     }
 
     private static unsafe void LoadCamera(Shader _shader)
