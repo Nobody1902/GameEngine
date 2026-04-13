@@ -9,6 +9,3 @@
 ![Icosphere](https://github.com/Nobody1902/GameEngine/blob/dev/Screenshots/Screenshot01.png?raw=true)
 ![Cube](https://github.com/Nobody1902/GameEngine/blob/dev/Screenshots/Screenshot02.png?raw=true)
 ![Sphere](https://github.com/Nobody1902/GameEngine/blob/dev/Screenshots/Screenshot03.png?raw=true)
-
----
-A narediš git repo da vidim če lahko kej pomagam. -Vitan
